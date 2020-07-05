@@ -5,6 +5,7 @@ import AppBar from '@material-ui/core/AppBar'
 import ToolBar from '@material-ui/core/ToolBar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
+import AddIcon from '@material-ui/icons/Add'
 import Typography from '@material-ui/core/Typography'
 
 const drawerWidth = 240
@@ -31,6 +32,9 @@ const useStyles = makeStyles(function (theme) {
     hide: {
       display: 'none',
     },
+    headerTitle: {
+      flex: 1
+    }
   }
 })
 
@@ -53,9 +57,17 @@ export default function Header(props) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant='h6' noWrap>
+        <Typography variant='h6' noWrap className={classes.headerTitle}>
           Awesome Bookmark
         </Typography>
+        <IconButton
+          aria-label='account of current user'
+          aria-controls='menu-appbar'
+          aria-haspopup='true'
+          color='inherit'
+        >
+          <AddIcon />
+        </IconButton>
       </ToolBar>
     </AppBar>
   )
