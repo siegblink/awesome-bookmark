@@ -1,4 +1,5 @@
 import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
@@ -9,6 +10,10 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
 import Tooltip from '@material-ui/core/Tooltip'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false)
@@ -49,7 +54,7 @@ export default function FormDialog() {
             id='bookmarkName'
             label='Bookmark name'
             type='text'
-            variant='outlined'
+            variant='filled'
             fullWidth
           />
           <TextField
@@ -57,9 +62,10 @@ export default function FormDialog() {
             id='bookmarkUrl'
             label='Bookmark URL'
             type='text'
-            variant='outlined'
+            variant='filled'
             fullWidth
           />
+          <CustomSelect />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color='primary'>
@@ -71,5 +77,52 @@ export default function FormDialog() {
         </DialogActions>
       </Dialog>
     </div>
+  )
+}
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    width: '100%',
+    marginTop: 8
+  },
+}))
+
+export function CustomSelect() {
+  const classes = useStyles()
+  const [bookmark, setBookmark] = React.useState('')
+  const [open, setOpen] = React.useState(false)
+
+  const handleChange = (event) => {
+    setBookmark(event.target.value)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleOpen = () => {
+    setOpen(true)
+  }
+
+  return (
+    <FormControl variant='filled' className={classes.formControl}>
+      <InputLabel id='select-bookmark-input'>Select category</InputLabel>
+      <Select
+        labelId='select-bookmark-category'
+        id='select-bookmark-category'
+        open={open}
+        onClose={handleClose}
+        onOpen={handleOpen}
+        value={bookmark}
+        onChange={handleChange}
+      >
+        <MenuItem value={'Personal'}>Personal</MenuItem>
+        <MenuItem value={'Github'}>Github</MenuItem>
+        <MenuItem value={'Important'}>Important</MenuItem>
+        <MenuItem value={'Libraries'}>Libraries</MenuItem>
+        <MenuItem value={'Tools'}>Tools</MenuItem>
+        <MenuItem value={'Others'}>Others</MenuItem>
+      </Select>
+    </FormControl>
   )
 }
