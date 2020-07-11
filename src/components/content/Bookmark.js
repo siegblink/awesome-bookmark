@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import Link from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography'
 import MoreOptionsButton from './MoreOptionsButton'
+import Tooltip from '@material-ui/core/Tooltip'
 
 const useStyles = makeStyles({
   root: {
@@ -42,11 +43,13 @@ export default function Bookmark(props) {
         <Typography color='textSecondary'>{bookmark.url}</Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button variant='outlined' className={classes.button}>
-          <Link target='_blank' href={bookmark.url} className={classes.link}>
-            Open
-          </Link>
-        </Button>
+        <Tooltip title='Open link in a new tab'>
+          <Button variant='outlined' className={classes.button}>
+            <Link target='_blank' href={bookmark.url} className={classes.link}>
+              Open
+            </Link>
+          </Button>
+        </Tooltip>
         <MoreOptionsButton />
       </CardActions>
     </Card>
