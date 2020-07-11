@@ -37,7 +37,7 @@ const useStyles = makeStyles(function (theme) {
     headerTitle: {
       flex: 1,
     },
-    search: {
+    searchBar: {
       position: 'relative',
       borderRadius: theme.shape.borderRadius,
       backgroundColor: fade(theme.palette.common.white, 0.15),
@@ -49,6 +49,9 @@ const useStyles = makeStyles(function (theme) {
         marginLeft: theme.spacing(1),
         width: 'auto',
       },
+      [theme.breakpoints.down('sm')]: {
+        display: 'none'
+      }
     },
     searchIcon: {
       padding: theme.spacing(0, 2),
@@ -118,7 +121,7 @@ function SearchInputField() {
   const classes = useStyles()
 
   return (
-    <div className={classes.search}>
+    <div className={classes.searchBar}>
       <div className={classes.searchIcon}>
         <SearchIcon />
       </div>
