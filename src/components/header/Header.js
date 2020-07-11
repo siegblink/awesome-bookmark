@@ -5,10 +5,10 @@ import AppBar from '@material-ui/core/AppBar'
 import ToolBar from '@material-ui/core/ToolBar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import AddIcon from '@material-ui/icons/Add'
 import SearchIcon from '@material-ui/icons/Search'
 import InputBase from '@material-ui/core/InputBase'
 import Typography from '@material-ui/core/Typography'
+import FormDialog from './FormDialog'
 
 const drawerWidth = 240
 
@@ -104,14 +104,7 @@ export default function Header(props) {
           Awesome Bookmark
         </Typography>
         <SearchInputField />
-        <IconButton
-          aria-label='account of current user'
-          aria-controls='menu-appbar'
-          aria-haspopup='true'
-          color='inherit'
-        >
-          <AddIcon />
-        </IconButton>
+        <FormDialog />
       </ToolBar>
     </AppBar>
   )
