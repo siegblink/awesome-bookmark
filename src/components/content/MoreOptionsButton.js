@@ -3,6 +3,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
+import Tooltip from '@material-ui/core/Tooltip'
 
 const options = ['Edit', 'Delete']
 
@@ -22,14 +23,16 @@ export default function MoreOptionsButton() {
 
   return (
     <div>
-      <IconButton
-        aria-label='more'
-        aria-controls='short-menu'
-        aria-haspopup='true'
-        onClick={handleClick}
-      >
-        <MoreVertIcon />
-      </IconButton>
+      <Tooltip title='See more options'>
+        <IconButton
+          aria-label='more'
+          aria-controls='short-menu'
+          aria-haspopup='true'
+          onClick={handleClick}
+        >
+          <MoreVertIcon />
+        </IconButton>
+      </Tooltip>
       <Menu
         id='short-menu'
         anchorEl={anchorEl}
