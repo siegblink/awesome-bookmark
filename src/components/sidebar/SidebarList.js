@@ -5,6 +5,7 @@ import GitHubIcon from '@material-ui/icons/GitHub'
 import LabelImportantIcon from '@material-ui/icons/LabelImportant'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
 import BuildIcon from '@material-ui/icons/Build'
+import BeenhereIcon from '@material-ui/icons/Beenhere'
 import SidebarListItem from './SidebarListItem'
 
 export default function SidebarList() {
@@ -14,6 +15,7 @@ export default function SidebarList() {
     { text: 'Important', icon: <LabelImportantIcon /> },
     { text: 'Libraries', icon: <MenuBookIcon /> },
     { text: 'Tools', icon: <BuildIcon /> },
+    { text: 'Others', icon: <BeenhereIcon /> },
   ]
 
   return (
