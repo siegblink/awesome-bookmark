@@ -6,15 +6,21 @@ import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Link from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography'
+import MoreOptionsButton from './MoreOptionsButton'
 
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
     marginBottom: 24,
   },
+  cardActions: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   button: {
     marginLeft: 6,
-    marginBottom: 6,
+    marginBottom: 2,
   },
   link: {
     color: '#000000de',
@@ -35,12 +41,13 @@ export default function Bookmark(props) {
         <Typography variant='h5'>{bookmark.name}</Typography>
         <Typography color='textSecondary'>{bookmark.url}</Typography>
       </CardContent>
-      <CardActions>
+      <CardActions className={classes.cardActions}>
         <Button variant='outlined' className={classes.button}>
           <Link target='_blank' href={bookmark.url} className={classes.link}>
             Open
           </Link>
         </Button>
+        <MoreOptionsButton />
       </CardActions>
     </Card>
   )
