@@ -9,26 +9,28 @@ import Typography from '@material-ui/core/Typography'
 import MoreOptionsButton from './MoreOptionsButton'
 import Tooltip from '@material-ui/core/Tooltip'
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-    marginBottom: 24,
-  },
-  cardActions: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  button: {
-    marginLeft: 6,
-    marginBottom: 2,
-  },
-  link: {
-    color: '#000000de',
-    '&:hover': {
-      textDecoration: 'none',
+const useStyles = makeStyles(function (theme) {
+  return {
+    root: {
+      minWidth: 275,
+      marginBottom: 24,
     },
-  },
+    cardActions: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    button: {
+      marginLeft: 6,
+      marginBottom: 2,
+    },
+    link: {
+      color: '#000000de',
+      '&:hover': {
+        textDecoration: 'none',
+      },
+    },
+  }
 })
 
 export default function Bookmark(props) {
