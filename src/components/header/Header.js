@@ -8,6 +8,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import InputBase from '@material-ui/core/InputBase'
 import Typography from '@material-ui/core/Typography'
+import Tooltip from '@material-ui/core/Tooltip'
 import FormDialog from './FormDialog'
 
 const drawerWidth = 240
@@ -67,7 +68,7 @@ const useStyles = makeStyles(function (theme) {
     },
     inputInput: {
       padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
+      // Vertical padding + font size from searchIcon
       paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
       transition: theme.transitions.create('width'),
       width: '100%',
@@ -91,15 +92,17 @@ export default function Header(props) {
       className={clsx(classes.appBar, { [classes.appBarShift]: open })}
     >
       <ToolBar>
-        <IconButton
-          aria-label='open drawer'
-          color='inherit'
-          edge='start'
-          onClick={handleDrawerOpen}
-          className={clsx(classes.menuButton, open && classes.hide)}
-        >
-          <MenuIcon />
-        </IconButton>
+        <Tooltip title='Open menu'>
+          <IconButton
+            aria-label='open drawer'
+            color='inherit'
+            edge='start'
+            onClick={handleDrawerOpen}
+            className={clsx(classes.menuButton, open && classes.hide)}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Tooltip>
         <Typography variant='h6' noWrap className={classes.headerTitle}>
           Awesome Bookmark
         </Typography>
