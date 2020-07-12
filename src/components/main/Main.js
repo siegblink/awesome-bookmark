@@ -2,10 +2,17 @@ import React, { useState } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import Hidden from '@material-ui/core/Hidden'
 import Bookmark from '../content/Bookmark'
 import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
 import SidebarList from '../sidebar/SidebarList'
+import { CustomSelect } from '../header/FormDialog'
 
 const drawerWidth = 240
 
@@ -30,6 +37,22 @@ const useStyles = makeStyles(function (theme) {
         duration: theme.transitions.duration.enteringScreen,
       }),
       marginLeft: 0,
+    },
+    gridContainer: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(3),
+      paddingTop: theme.spacing(2),
+      paddingBottom: 0,
+    },
+    textFieldGroup: {
+      padding: '8px 0',
+    },
+    buttonGroup: {
+      padding: '8px 0',
+      display: 'flex',
+      justifyContent: 'flex-end',
     },
   }
 })
@@ -67,10 +90,53 @@ export default function Main(props) {
       </Sidebar>
 
       <main className={clsx(classes.content, { [classes.contentShift]: open })}>
-        {data.map(function (bookmark) {
-          const { name } = bookmark
-          return <Bookmark key={name} bookmark={bookmark} />
-        })}
+        <Grid container spacing={3}>
+          <Grid item xs={12} lg={6}>
+            {data.map(function (bookmark) {
+              const { name } = bookmark
+              return <Bookmark key={name} bookmark={bookmark} />
+            })}
+          </Grid>
+          <Hidden mdDown>
+            <Grid item xs={12} lg={6}>
+              <Paper className={classes.paper}>
+                <Typography variant='h6' gutterBottom>
+                  Add new bookmark
+                </Typography>
+                <div className={classes.textFieldGroup}>
+                  <Typography
+                    variant='subtitle1'
+                    color='textSecondary'
+                    gutterBottom
+                  >
+                    Enter the bookmark name, url, and category.
+                  </Typography>
+                  <TextField
+                    margin='dense'
+                    id='bookmarkName'
+                    label='Bookmark name'
+                    type='text'
+                    variant='filled'
+                    fullWidth
+                  />
+                  <TextField
+                    margin='dense'
+                    id='bookmarkUrl'
+                    label='Bookmark URL'
+                    type='text'
+                    variant='filled'
+                    fullWidth
+                  />
+                  <CustomSelect />
+                </div>
+                <div className={classes.buttonGroup}>
+                  <Button color='primary'>Cancel</Button>
+                  <Button color='primary'>Add bookmark</Button>
+                </div>
+              </Paper>
+            </Grid>
+          </Hidden>
+        </Grid>
       </main>
     </div>
   )
