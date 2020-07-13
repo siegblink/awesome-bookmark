@@ -69,7 +69,7 @@ const data = [
   },
 ]
 
-export default function Main(props) {
+export default function Main() {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
 
@@ -99,45 +99,49 @@ export default function Main(props) {
           </Grid>
           <Hidden mdDown>
             <Grid item xs={12} lg={6}>
-              <Paper className={classes.paper}>
-                <Typography variant='h6' gutterBottom>
-                  Add new bookmark
-                </Typography>
-                <div className={classes.textFieldGroup}>
-                  <Typography
-                    variant='subtitle1'
-                    color='textSecondary'
-                    gutterBottom
-                  >
-                    Enter the bookmark name, url, and category.
-                  </Typography>
-                  <TextField
-                    margin='dense'
-                    id='bookmarkName'
-                    label='Bookmark name'
-                    type='text'
-                    variant='filled'
-                    fullWidth
-                  />
-                  <TextField
-                    margin='dense'
-                    id='bookmarkUrl'
-                    label='Bookmark URL'
-                    type='text'
-                    variant='filled'
-                    fullWidth
-                  />
-                  <CustomSelect />
-                </div>
-                <div className={classes.buttonGroup}>
-                  <Button color='primary'>Cancel</Button>
-                  <Button color='primary'>Add bookmark</Button>
-                </div>
-              </Paper>
+              <BookmarkForm />
             </Grid>
           </Hidden>
         </Grid>
       </main>
     </div>
+  )
+}
+
+function BookmarkForm() {
+  const classes = useStyles()
+
+  return (
+    <Paper className={classes.paper}>
+      <Typography variant='h6' gutterBottom>
+        Add new bookmark
+      </Typography>
+      <div className={classes.textFieldGroup}>
+        <Typography variant='subtitle1' color='textSecondary' gutterBottom>
+          Enter the bookmark name, url, and category.
+        </Typography>
+        <TextField
+          margin='dense'
+          id='bookmarkName'
+          label='Bookmark name'
+          type='text'
+          variant='filled'
+          fullWidth
+        />
+        <TextField
+          margin='dense'
+          id='bookmarkUrl'
+          label='Bookmark URL'
+          type='text'
+          variant='filled'
+          fullWidth
+        />
+        <CustomSelect />
+      </div>
+      <div className={classes.buttonGroup}>
+        <Button color='primary'>Cancel</Button>
+        <Button color='primary'>Add bookmark</Button>
+      </div>
+    </Paper>
   )
 }
