@@ -44,7 +44,7 @@ const useStyles = makeStyles(function (theme) {
     paper: {
       padding: theme.spacing(3),
       paddingTop: theme.spacing(2),
-      paddingBottom: 0,
+      paddingBottom: theme.spacing(1),
     },
     textFieldGroup: {
       padding: '8px 0',
@@ -117,7 +117,11 @@ function BookmarkForm() {
         Add new bookmark
       </Typography>
       <div className={classes.textFieldGroup}>
-        <Typography variant='subtitle1' color='textSecondary' gutterBottom>
+        <Typography
+          variant='subtitle1'
+          color='textSecondary'
+          style={{ marginBottom: 16 }}
+        >
           Enter the bookmark name, url, and category.
         </Typography>
         <TextField
@@ -139,8 +143,12 @@ function BookmarkForm() {
         <CustomSelect />
       </div>
       <div className={classes.buttonGroup}>
-        <Button color='primary'>Cancel</Button>
-        <Button color='primary'>Add bookmark</Button>
+        <Button color='primary' style={{ marginRight: '16px' }}>
+          Cancel
+        </Button>
+        <Button variant='contained' color='primary'>
+          Add bookmark
+        </Button>
       </div>
     </Paper>
   )
