@@ -40,7 +40,7 @@ const useStyles = makeStyles(function (theme) {
       padding: '8px 0',
     },
     buttonGroup: {
-      padding: '8px 0',
+      padding: '16px 0',
       display: 'flex',
       justifyContent: 'flex-end',
     },
