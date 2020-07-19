@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Paper from '@material-ui/core/Paper'
@@ -14,32 +13,23 @@ import Sidebar from '../sidebar/Sidebar'
 import SidebarList from '../sidebar/SidebarList'
 import { CustomSelect } from '../header/FormDialog'
 
-const drawerWidth = 240
-
 const useStyles = makeStyles(function (theme) {
   return {
     root: {
       display: 'flex',
+      flex: 1,
     },
     content: {
       flexGrow: 1,
       padding: theme.spacing(3),
-      marginTop: 64,
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      marginLeft: -drawerWidth,
     },
-    contentShift: {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    },
-    gridContainer: {
-      flexGrow: 1,
+    contentAdjustment: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      padding: theme.spacing(0, 1),
+      // necessary for content to be below app bar
+      ...theme.mixins.toolbar,
     },
     paper: {
       padding: theme.spacing(3),
@@ -88,8 +78,8 @@ export default function Main() {
       <Sidebar open={open} handleDrawerClose={handleDrawerClose}>
         <SidebarList />
       </Sidebar>
-
-      <main className={clsx(classes.content, { [classes.contentShift]: open })}>
+      <main className={classes.content}>
+        <div className={classes.contentAdjustment}></div>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={6}>
             {data.map(function (bookmark) {
