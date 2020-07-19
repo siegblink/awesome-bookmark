@@ -16,21 +16,22 @@ const drawerWidth = 240
 const useStyles = makeStyles(function (theme) {
   return {
     appBar: {
-      transition: theme.transitions.create(['margin', 'width'], {
+      zIndex: theme.zIndex.drawer + 1,
+      transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
     },
     appBarShift: {
-      widht: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.easeOut,
+      width: `calc(100% - ${drawerWidth}px)`,
+      transition: theme.transitions.create(['width', 'margin'], {
+        easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
     menuButton: {
-      marginRight: theme.spacing(2),
+      marginRight: 36,
     },
     hide: {
       display: 'none',
@@ -39,6 +40,7 @@ const useStyles = makeStyles(function (theme) {
       flex: 1,
     },
     searchBar: {
+      marginRight: theme.spacing(1),
       position: 'relative',
       borderRadius: theme.shape.borderRadius,
       backgroundColor: fade(theme.palette.common.white, 0.15),
@@ -51,8 +53,8 @@ const useStyles = makeStyles(function (theme) {
         width: 'auto',
       },
       [theme.breakpoints.down('sm')]: {
-        display: 'none'
-      }
+        display: 'none',
+      },
     },
     searchIcon: {
       padding: theme.spacing(0, 2),
