@@ -15,6 +15,15 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 
+const useStyles = makeStyles(function () {
+  return {
+    formControl: {
+      width: '100%',
+      marginTop: 8,
+    },
+  }
+})
+
 export default function FormDialog() {
   const [open, setOpen] = useState(false)
 
@@ -67,11 +76,15 @@ export default function FormDialog() {
           />
           <CustomSelect />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color='primary'>
+        <DialogActions style={{ padding: '16px 24px 24px' }}>
+          <Button
+            onClick={handleClose}
+            color='primary'
+            style={{ marginRight: '16px' }}
+          >
             Cancel
           </Button>
-          <Button onClick={handleClose} color='primary'>
+          <Button onClick={handleClose} color='primary' variant='contained'>
             Add bookmark
           </Button>
         </DialogActions>
@@ -79,13 +92,6 @@ export default function FormDialog() {
     </div>
   )
 }
-
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    width: '100%',
-    marginTop: 8,
-  },
-}))
 
 export function CustomSelect() {
   const classes = useStyles()
