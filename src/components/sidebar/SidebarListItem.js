@@ -4,10 +4,13 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 
-const useStyles = makeStyles(function () {
+const useStyles = makeStyles(function (theme) {
   return {
     listItem: {
-      paddingLeft: 24,
+      paddingLeft: 16,
+      [theme.breakpoints.up('sm')]: {
+        paddingLeft: 24,
+      },
     },
   }
 })
