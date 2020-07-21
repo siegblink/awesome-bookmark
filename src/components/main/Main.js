@@ -11,6 +11,7 @@ import Bookmark from '../content/Bookmark'
 import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
 import SidebarList from '../sidebar/SidebarList'
+import Summary from '../content/Summary'
 import { CustomSelect } from '../header/FormDialog'
 
 const useStyles = makeStyles(function (theme) {
@@ -89,6 +90,7 @@ export default function Main() {
           </Grid>
           <Hidden mdDown>
             <Grid item xs={12} lg={6}>
+              <Summary />
               <BookmarkForm />
             </Grid>
           </Hidden>
@@ -103,17 +105,11 @@ function BookmarkForm() {
 
   return (
     <Paper className={classes.paper}>
-      <Typography variant='h6' gutterBottom>
-        Add new bookmark
+      <Typography variant='h5'>Add new bookmark</Typography>
+      <Typography color='textSecondary'>
+        Enter the bookmark name, url, and category.
       </Typography>
       <div className={classes.textFieldGroup}>
-        <Typography
-          variant='subtitle1'
-          color='textSecondary'
-          style={{ marginBottom: 16 }}
-        >
-          Enter the bookmark name, url, and category.
-        </Typography>
         <TextField
           margin='dense'
           id='bookmarkName'
