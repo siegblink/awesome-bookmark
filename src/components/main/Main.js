@@ -90,6 +90,7 @@ export default function Main() {
           </Grid>
           <Hidden mdDown>
             <Grid item xs={12} lg={6}>
+              {/* Summary component needs more work */}
               {/* <Summary /> */}
               <BookmarkForm />
             </Grid>
