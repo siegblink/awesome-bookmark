@@ -9,6 +9,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import InputBase from '@material-ui/core/InputBase'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
+import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import FormDialog from './FormDialog'
 
 const drawerWidth = 240
@@ -38,6 +39,11 @@ const useStyles = makeStyles(function (theme) {
     },
     headerTitle: {
       flex: 1,
+      display: 'flex',
+      alignItems: 'center',
+    },
+    currentBookmark: {
+      color: fade(theme.palette.common.white, 0.55),
     },
     searchBar: {
       marginRight: theme.spacing(1),
@@ -107,6 +113,8 @@ export default function Header(props) {
         </Tooltip>
         <Typography variant='h6' noWrap className={classes.headerTitle}>
           Awesome Bookmark
+          <ChevronRightIcon className={classes.currentBookmark} />
+          <span className={classes.currentBookmark}>Personal</span>
         </Typography>
         <SearchInputField />
         <FormDialog />
