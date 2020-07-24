@@ -11,8 +11,8 @@ import Bookmark from '../content/Bookmark'
 import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
 import SidebarList from '../sidebar/SidebarList'
-import Summary from '../content/Summary'
 import { CustomSelect } from '../header/FormDialog'
+// import Summary from '../content/Summary'
 
 const useStyles = makeStyles(function (theme) {
   return {
