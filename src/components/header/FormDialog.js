@@ -15,16 +15,20 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 
-const useStyles = makeStyles(function () {
+const useStyles = makeStyles(function (theme) {
   return {
     formControl: {
       width: '100%',
       marginTop: 8,
     },
+    iconButton: {
+      marginLeft: theme.spacing(1),
+    },
   }
 })
 
 export default function FormDialog() {
+  const classes = useStyles()
   const [open, setOpen] = useState(false)
 
   function handleClickOpen() {
@@ -44,6 +48,7 @@ export default function FormDialog() {
           aria-haspopup='true'
           color='inherit'
           onClick={handleClickOpen}
+          className={classes.iconButton}
         >
           <AddIcon />
         </IconButton>
