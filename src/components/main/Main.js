@@ -4,9 +4,11 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Hidden from '@material-ui/core/Hidden'
+import FormControl from '@material-ui/core/FormControl'
+import FilledInput from '@material-ui/core/FilledInput'
+import InputLabel from '@material-ui/core/InputLabel'
 import Bookmark from '../content/Bookmark'
 import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
@@ -38,12 +40,20 @@ const useStyles = makeStyles(function (theme) {
       paddingBottom: theme.spacing(1),
     },
     textFieldGroup: {
-      padding: '8px 0',
+      padding: '24px 0 8px',
+      display: 'grid',
+      gap: '20px',
+    },
+    textField: {
+      margin: theme.spacing(1),
     },
     buttonGroup: {
       padding: '16px 0',
       display: 'flex',
       justifyContent: 'flex-end',
+    },
+    cancelButton: {
+      marginRight: '16px',
     },
   }
 })
@@ -111,26 +121,18 @@ function BookmarkForm() {
         Enter the bookmark name, url, and category.
       </Typography>
       <div className={classes.textFieldGroup}>
-        <TextField
-          margin='dense'
-          id='bookmarkName'
-          label='Bookmark name'
-          type='text'
-          variant='filled'
-          fullWidth
-        />
-        <TextField
-          margin='dense'
-          id='bookmarkUrl'
-          label='Bookmark URL'
-          type='text'
-          variant='filled'
-          fullWidth
-        />
+        <FormControl fullWidth variant='filled' className={classes.margin}>
+          <InputLabel htmlFor='bookmark-name'>Name</InputLabel>
+          <FilledInput id='bookmark-name' />
+        </FormControl>
+        <FormControl fullWidth variant='filled' className={classes.margin}>
+          <InputLabel htmlFor='bookmark-link'>Link</InputLabel>
+          <FilledInput id='bookmark-link' />
+        </FormControl>
         <CustomSelect />
       </div>
       <div className={classes.buttonGroup}>
-        <Button color='primary' style={{ marginRight: '16px' }}>
+        <Button color='primary' className={classes.cancelButton}>
           Cancel
         </Button>
         <Button variant='contained' color='primary'>
