@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Paper from '@material-ui/core/Paper'
@@ -13,7 +13,8 @@ import Bookmark from '../content/Bookmark'
 import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
 import SidebarList from '../sidebar/SidebarList'
-import { CustomSelect } from '../header/FormDialog'
+import MenuItem from '@material-ui/core/MenuItem'
+import Select from '@material-ui/core/Select'
 // import Summary from '../content/Summary'
 
 const useStyles = makeStyles(function (theme) {
@@ -55,6 +56,9 @@ const useStyles = makeStyles(function (theme) {
     cancelButton: {
       marginRight: '16px',
     },
+    customSelect: {
+      width: '100%',
+    },
   }
 })
 
@@ -70,9 +74,19 @@ const data = [
   },
 ]
 
+function bookmarkReducer(state, action) {
+  switch (action.type) {
+    case 'SET_BOOKMARKS':
+      return [...state, action.payload]
+    default:
+      throw new Error('Invalid action')
+  }
+}
+
 export default function Main() {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
+  const [state, dispatch] = useReducer(bookmarkReducer, data)
 
   function handleDrawerOpen() {
     setOpen(true)
@@ -102,7 +116,10 @@ export default function Main() {
             <Grid item xs={12} lg={6}>
               {/* Summary component needs more work */}
               {/* <Summary /> */}
-              <BookmarkForm />
+              <BookmarkForm
+                bookmarksCollection={state}
+                setBookmarks={dispatch}
+              />
             </Grid>
           </Hidden>
         </Grid>
@@ -111,8 +128,36 @@ export default function Main() {
   )
 }
 
-function BookmarkForm() {
+export function BookmarkForm(props) {
   const classes = useStyles()
+  const [name, setName] = useState('')
+  const [link, setLink] = useState('')
+  const [category, setCategory] = useState('')
+  const { setBookmarks } = props
+
+  function handleNameChange(event) {
+    setName(event.target.value)
+  }
+
+  function handleLinkChange(event) {
+    setLink(event.target.value)
+  }
+
+  function handleCategoryChange(event) {
+    setCategory(event.target.value)
+  }
+
+  function submitBookmark(event) {
+    event.preventDefault()
+    setBookmarks({ type: 'SET_BOOKMARKS', payload: { name, link, category } })
+  }
+
+  function clearBookmark(event) {
+    event.preventDefault()
+    setName('')
+    setLink('')
+    setCategory('')
+  }
 
   return (
     <Paper className={classes.paper}>
@@ -123,22 +168,73 @@ function BookmarkForm() {
       <div className={classes.textFieldGroup}>
         <FormControl fullWidth variant='filled' className={classes.margin}>
           <InputLabel htmlFor='bookmark-name'>Name</InputLabel>
-          <FilledInput id='bookmark-name' />
+          <FilledInput
+            id='bookmark-name'
+            value={name}
+            onChange={handleNameChange}
+          />
         </FormControl>
         <FormControl fullWidth variant='filled' className={classes.margin}>
           <InputLabel htmlFor='bookmark-link'>Link</InputLabel>
-          <FilledInput id='bookmark-link' />
+          <FilledInput
+            id='bookmark-link'
+            value={link}
+            onChange={handleLinkChange}
+          />
         </FormControl>
-        <CustomSelect />
+        <CustomSelect
+          category={category}
+          handleCategoryChange={handleCategoryChange}
+        />
       </div>
       <div className={classes.buttonGroup}>
-        <Button color='primary' className={classes.cancelButton}>
-          Cancel
+        <Button
+          color='primary'
+          className={classes.cancelButton}
+          onClick={clearBookmark}
+        >
+          Clear
         </Button>
-        <Button variant='contained' color='primary'>
+        <Button variant='contained' color='primary' onClick={submitBookmark}>
           Add bookmark
         </Button>
       </div>
     </Paper>
+  )
+}
+
+export function CustomSelect(props) {
+  const classes = useStyles()
+  const [open, setOpen] = useState(false)
+  const { category, handleCategoryChange } = props
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleOpen = () => {
+    setOpen(true)
+  }
+
+  return (
+    <FormControl variant='filled' className={classes.customSelect}>
+      <InputLabel id='select-bookmark-input'>Category</InputLabel>
+      <Select
+        labelId='bookmark-category'
+        id='bookmark-category'
+        open={open}
+        onClose={handleClose}
+        onOpen={handleOpen}
+        value={category}
+        onChange={handleCategoryChange}
+      >
+        <MenuItem value={'Personal'}>Personal</MenuItem>
+        <MenuItem value={'Github'}>Github</MenuItem>
+        <MenuItem value={'Important'}>Important</MenuItem>
+        <MenuItem value={'Libraries'}>Libraries</MenuItem>
+        <MenuItem value={'Tools'}>Tools</MenuItem>
+        <MenuItem value={'Others'}>Others</MenuItem>
+      </Select>
+    </FormControl>
   )
 }
