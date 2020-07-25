@@ -156,6 +156,9 @@ export function BookmarkForm(props) {
   function submitBookmark(event) {
     event.preventDefault()
     setBookmarks({ type: 'SET_BOOKMARKS', payload: { name, link, category } })
+    setName('')
+    setLink('')
+    setCategory('')
   }
 
   function clearBookmark(event) {
