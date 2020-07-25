@@ -19,7 +19,6 @@ const useStyles = makeStyles(function (theme) {
   return {
     formControl: {
       width: '100%',
-      marginTop: 8,
     },
     iconButton: {
       marginLeft: theme.spacing(1),
@@ -119,8 +118,8 @@ export function CustomSelect() {
     <FormControl variant='filled' className={classes.formControl}>
       <InputLabel id='select-bookmark-input'>Select category</InputLabel>
       <Select
-        labelId='select-bookmark-category'
-        id='select-bookmark-category'
+        labelId='bookmark-category'
+        id='bookmark-category'
         open={open}
         onClose={handleClose}
         onOpen={handleOpen}
