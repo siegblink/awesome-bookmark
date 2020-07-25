@@ -63,14 +63,20 @@ const useStyles = makeStyles(function (theme) {
 })
 
 const data = [
-  { name: 'github-octodex', url: 'https://octodex.github.com' },
+  {
+    name: 'github-octodex',
+    link: 'https://octodex.github.com',
+    category: 'Github',
+  },
   {
     name: 'mastering-markdown-github-guide',
-    url: 'https://guides.github.com/features/mastering-markdown/',
+    link: 'https://guides.github.com/features/mastering-markdown/',
+    category: 'Github',
   },
   {
     name: 'github-high-scores',
-    url: 'https://leereilly.net/github-high-scores/',
+    link: 'https://leereilly.net/github-high-scores/',
+    category: 'Github',
   },
 ]
 
@@ -107,7 +113,7 @@ export default function Main() {
         <div className={classes.contentAdjustment}></div>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={6}>
-            {data.map(function (bookmark) {
+            {state.map(function (bookmark) {
               const { name } = bookmark
               return <Bookmark key={name} bookmark={bookmark} />
             })}
