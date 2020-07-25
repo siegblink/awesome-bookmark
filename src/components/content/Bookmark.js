@@ -35,7 +35,6 @@ const useStyles = makeStyles(function (theme) {
 
 export default function Bookmark(props) {
   const { bookmark } = props
-
   const classes = useStyles()
 
   return (
