@@ -10,10 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
 import Tooltip from '@material-ui/core/Tooltip'
-import InputLabel from '@material-ui/core/InputLabel'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
+import { CustomSelect } from '../main/Main'
 
 const useStyles = makeStyles(function (theme) {
   return {
@@ -94,45 +91,5 @@ export default function FormDialog() {
         </DialogActions>
       </Dialog>
     </div>
-  )
-}
-
-export function CustomSelect() {
-  const classes = useStyles()
-  const [bookmark, setBookmark] = useState('')
-  const [open, setOpen] = useState(false)
-
-  const handleChange = (event) => {
-    setBookmark(event.target.value)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
-
-  const handleOpen = () => {
-    setOpen(true)
-  }
-
-  return (
-    <FormControl variant='filled' className={classes.formControl}>
-      <InputLabel id='select-bookmark-input'>Select category</InputLabel>
-      <Select
-        labelId='bookmark-category'
-        id='bookmark-category'
-        open={open}
-        onClose={handleClose}
-        onOpen={handleOpen}
-        value={bookmark}
-        onChange={handleChange}
-      >
-        <MenuItem value={'Personal'}>Personal</MenuItem>
-        <MenuItem value={'Github'}>Github</MenuItem>
-        <MenuItem value={'Important'}>Important</MenuItem>
-        <MenuItem value={'Libraries'}>Libraries</MenuItem>
-        <MenuItem value={'Tools'}>Tools</MenuItem>
-        <MenuItem value={'Others'}>Others</MenuItem>
-      </Select>
-    </FormControl>
   )
 }
