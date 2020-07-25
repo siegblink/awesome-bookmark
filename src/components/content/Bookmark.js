@@ -42,7 +42,7 @@ export default function Bookmark(props) {
     <Card className={classes.root}>
       <CardContent>
         <Typography variant='h5'>{bookmark.name}</Typography>
-        <Typography color='textSecondary'>{bookmark.url}</Typography>
+        <Typography color='textSecondary'>{bookmark.link}</Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
         <Tooltip title='Open link in a new tab'>
