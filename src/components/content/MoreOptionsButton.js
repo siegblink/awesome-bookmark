@@ -23,7 +23,7 @@ export default function MoreOptionsButton() {
 
   return (
     <div>
-      <Tooltip title='See more options'>
+      <Tooltip title='See more options' placement='left' arrow>
         <IconButton
           aria-label='more'
           aria-controls='short-menu'
