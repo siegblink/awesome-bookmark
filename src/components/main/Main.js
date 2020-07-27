@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react'
+import React, { useState, useReducer, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Paper from '@material-ui/core/Paper'
@@ -9,12 +9,13 @@ import Hidden from '@material-ui/core/Hidden'
 import FormControl from '@material-ui/core/FormControl'
 import FilledInput from '@material-ui/core/FilledInput'
 import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import Select from '@material-ui/core/Select'
 import Bookmark from '../content/Bookmark'
 import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
 import SidebarList from '../sidebar/SidebarList'
-import MenuItem from '@material-ui/core/MenuItem'
-import Select from '@material-ui/core/Select'
+import RightSideDrawer from '../sidebar/RightSideDrawer'
 // import Summary from '../content/Summary'
 
 const useStyles = makeStyles(function (theme) {
@@ -89,10 +90,22 @@ function bookmarkReducer(state, action) {
   }
 }
 
+const initialBookmarkData = { name: '', link: '', category: '' }
+
 export default function Main() {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
+  const [openEditDrawer, setOpenEditDrawer] = useState(false)
+  const [editedBookmark, setEditedBookmark] = useState(initialBookmarkData)
+  const [currentBookmarkName, setCurrentBookmarkName] = useState('')
+  const [currentBookmarkLink, setCurrentBookmarkLink] = useState('')
+  const [currentBookmarkCategory, setCurrentBookmarkCategory] = useState('')
   const [state, dispatch] = useReducer(bookmarkReducer, data)
+
+  useEffect(function () {
+    const firstBookmarkEntry = data[0]
+    setCurrentBookmarkCategory(firstBookmarkEntry.category)
+  }, [])
 
   function handleDrawerOpen() {
     setOpen(true)
@@ -102,6 +115,32 @@ export default function Main() {
     setOpen(false)
   }
 
+  function handleOpenEditDrawer(bookmarkName, bookmarkLink) {
+    setCurrentBookmarkName(bookmarkName)
+    setCurrentBookmarkLink(bookmarkLink)
+    setOpenEditDrawer(true)
+  }
+
+  function handleCloseEditDrawer() {
+    setOpenEditDrawer(false)
+  }
+
+  function handleEditedBookmark(event) {
+    const { name, value } = event.target
+    setEditedBookmark(function (previouBookmarkData) {
+      return {
+        ...previouBookmarkData,
+        [name]: value,
+      }
+    })
+  }
+
+  function handleSubmitEditedBookmark(event) {
+    event.preventDefault()
+    console.log(editedBookmark)
+    handleCloseEditDrawer()
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -109,13 +148,29 @@ export default function Main() {
       <Sidebar open={open} handleDrawerClose={handleDrawerClose}>
         <SidebarList />
       </Sidebar>
+      <RightSideDrawer
+        open={openEditDrawer}
+        handleClose={handleCloseEditDrawer}
+        editedBookmark={editedBookmark}
+        handleEditedBookmark={handleEditedBookmark}
+        currentBookmarkName={currentBookmarkName}
+        currentBookmarkLink={currentBookmarkLink}
+        currentBookmarkCategory={currentBookmarkCategory}
+        handleSubmitEditedBookmark={handleSubmitEditedBookmark}
+      />
       <main className={classes.content}>
         <div className={classes.contentAdjustment}></div>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={6}>
             {state.map(function (bookmark) {
               const { name } = bookmark
-              return <Bookmark key={name} bookmark={bookmark} />
+              return (
+                <Bookmark
+                  key={name}
+                  bookmark={bookmark}
+                  openEditDrawer={handleOpenEditDrawer}
+                />
+              )
             })}
           </Grid>
           <Hidden mdDown>
@@ -219,7 +274,7 @@ export function BookmarkForm(props) {
 export function CustomSelect(props) {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
-  const { category, handleCategoryChange } = props
+  const { name, category, handleCategoryChange } = props
 
   const handleClose = () => {
     setOpen(false)
@@ -233,6 +288,7 @@ export function CustomSelect(props) {
     <FormControl variant='filled' className={classes.customSelect}>
       <InputLabel id='select-bookmark-input'>Category</InputLabel>
       <Select
+        name={name || 'custom-select'}
         labelId='bookmark-category'
         id='bookmark-category'
         open={open}
