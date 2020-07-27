@@ -5,12 +5,11 @@ import MenuItem from '@material-ui/core/MenuItem'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import Tooltip from '@material-ui/core/Tooltip'
 
-const options = ['Edit', 'Delete']
-
 const ITEM_HEIGHT = 48
 
-export default function MoreOptionsButton() {
+export default function MoreOptionsButton(props) {
   const [anchorEl, setAnchorEl] = useState(null)
+  const { openEditDrawer, currentBookmarkName, currentBookmarkLink } = props
   const open = Boolean(anchorEl)
 
   function handleClick(event) {
@@ -18,6 +17,11 @@ export default function MoreOptionsButton() {
   }
 
   function handleClose() {
+    setAnchorEl(null)
+  }
+
+  function handleOpenEditDrawer() {
+    openEditDrawer(currentBookmarkName, currentBookmarkLink)
     setAnchorEl(null)
   }
 
@@ -34,10 +38,8 @@ export default function MoreOptionsButton() {
         </IconButton>
       </Tooltip>
       <Menu
-        id='short-menu'
-        anchorEl={anchorEl}
-        keepMounted
         open={open}
+        anchorEl={anchorEl}
         onClose={handleClose}
         PaperProps={{
           style: {
@@ -45,16 +47,10 @@ export default function MoreOptionsButton() {
             width: '20ch',
           },
         }}
+        keepMounted
       >
-        {options.map((option) => (
-          <MenuItem
-            key={option}
-            selected={option === 'Pyxis'}
-            onClick={handleClose}
-          >
-            {option}
-          </MenuItem>
-        ))}
+        <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
+        <MenuItem onClick={handleClose}>Delete</MenuItem>
       </Menu>
     </div>
   )
