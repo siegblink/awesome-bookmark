@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
+import Tooltip from '@material-ui/core/Tooltip'
 
 const useStyles = makeStyles(function (theme) {
   return {
@@ -21,7 +22,9 @@ export default function SidebarListItem(props) {
 
   return (
     <ListItem button className={classes.listItem}>
-      <ListItemIcon>{icon}</ListItemIcon>
+      <Tooltip arrow title={text} placement='right'>
+        <ListItemIcon>{icon}</ListItemIcon>
+      </Tooltip>
       <ListItemText primary={text} />
     </ListItem>
   )

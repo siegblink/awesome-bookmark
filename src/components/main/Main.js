@@ -10,6 +10,8 @@ import FormControl from '@material-ui/core/FormControl'
 import FilledInput from '@material-ui/core/FilledInput'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 import Select from '@material-ui/core/Select'
 import Bookmark from '../content/Bookmark'
 import Header from '../header/Header'
@@ -93,6 +95,10 @@ function bookmarkReducer(state, action) {
 
 const initialBookmarkData = { name: '', link: '', category: '' }
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant='filled' {...props} />
+}
+
 export default function Main() {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
@@ -102,6 +108,7 @@ export default function Main() {
   const [currentBookmarkLink, setCurrentBookmarkLink] = useState('')
   const [currentBookmarkCategory, setCurrentBookmarkCategory] = useState('')
   const [state, dispatch] = useReducer(bookmarkReducer, data)
+  const [openSnackbar, setOpenSnackbar] = useState(false)
 
   useEffect(function () {
     const firstBookmarkEntry = data[0]
@@ -142,6 +149,13 @@ export default function Main() {
     handleCloseEditDrawer()
   }
 
+  function closeSnackbar(event, reason) {
+    if (reason === 'clickaway') {
+      return
+    }
+    setOpenSnackbar(false)
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -180,11 +194,22 @@ export default function Main() {
               <BookmarkForm
                 bookmarksCollection={state}
                 setBookmarks={dispatch}
+                setOpenSnackbar={setOpenSnackbar}
               />
             </Grid>
           </Hidden>
         </Grid>
       </main>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={closeSnackbar}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <Alert onClose={closeSnackbar} severity='success'>
+          Successfully added new bookmark.
+        </Alert>
+      </Snackbar>
     </div>
   )
 }
@@ -218,6 +243,7 @@ export function BookmarkForm(props) {
     setName('')
     setLink('')
     setCategory('')
+    props.setOpenSnackbar(true)
   }
 
   function clearBookmark(event) {
@@ -271,6 +297,15 @@ export function BookmarkForm(props) {
   )
 }
 
+const tabNames = [
+  'Personal',
+  'Github',
+  'Important',
+  'Libraries',
+  'Tools',
+  'Others',
+]
+
 export function CustomSelect(props) {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
@@ -297,12 +332,13 @@ export function CustomSelect(props) {
         value={category}
         onChange={handleCategoryChange}
       >
-        <MenuItem value={'Personal'}>Personal</MenuItem>
-        <MenuItem value={'Github'}>Github</MenuItem>
-        <MenuItem value={'Important'}>Important</MenuItem>
-        <MenuItem value={'Libraries'}>Libraries</MenuItem>
-        <MenuItem value={'Tools'}>Tools</MenuItem>
-        <MenuItem value={'Others'}>Others</MenuItem>
+        {tabNames.map((tabName) => {
+          return (
+            <MenuItem key={tabName} value={tabName}>
+              {tabName}
+            </MenuItem>
+          )
+        })}
       </Select>
     </FormControl>
   )
