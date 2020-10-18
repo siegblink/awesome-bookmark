@@ -16,7 +16,6 @@ import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
 import SidebarList from '../sidebar/SidebarList'
 import RightSideDrawer from '../sidebar/RightSideDrawer'
-// import Summary from '../content/Summary'
 
 const useStyles = makeStyles(function (theme) {
   return {
@@ -33,7 +32,7 @@ const useStyles = makeStyles(function (theme) {
       alignItems: 'center',
       justifyContent: 'flex-end',
       padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
+      // Necessary for content to be below app bar
       ...theme.mixins.toolbar,
     },
     paper: {
@@ -85,6 +84,8 @@ function bookmarkReducer(state, action) {
   switch (action.type) {
     case 'SET_BOOKMARKS':
       return [...state, action.payload]
+    case 'DELETE_BOOKMARK':
+      return state.filter((bookmark) => bookmark.name !== action.payload.name)
     default:
       throw new Error('Invalid action')
   }
@@ -169,14 +170,13 @@ export default function Main() {
                   key={name}
                   bookmark={bookmark}
                   openEditDrawer={handleOpenEditDrawer}
+                  dispatch={dispatch}
                 />
               )
             })}
           </Grid>
           <Hidden mdDown>
             <Grid item xs={12} lg={6}>
-              {/* Summary component needs more work */}
-              {/* <Summary /> */}
               <BookmarkForm
                 bookmarksCollection={state}
                 setBookmarks={dispatch}
