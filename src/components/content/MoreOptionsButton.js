@@ -9,7 +9,8 @@ const ITEM_HEIGHT = 48
 
 export default function MoreOptionsButton(props) {
   const [anchorEl, setAnchorEl] = useState(null)
-  const { openEditDrawer, currentBookmarkName, currentBookmarkLink } = props
+  const { currentBookmarkName, currentBookmarkLink } = props
+  const { openEditDrawer, dispatch } = props
   const open = Boolean(anchorEl)
 
   function handleClick(event) {
@@ -23,6 +24,16 @@ export default function MoreOptionsButton(props) {
   function handleOpenEditDrawer() {
     openEditDrawer(currentBookmarkName, currentBookmarkLink)
     setAnchorEl(null)
+  }
+
+  function removeBookmark(currentBookmarkName) {
+    return () => {
+      dispatch({
+        type: 'DELETE_BOOKMARK',
+        payload: { name: currentBookmarkName },
+      })
+      handleClose()
+    }
   }
 
   return (
@@ -50,7 +61,9 @@ export default function MoreOptionsButton(props) {
         keepMounted
       >
         <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
+        <MenuItem onClick={removeBookmark(currentBookmarkName)}>
+          Delete
+        </MenuItem>
       </Menu>
     </div>
   )
