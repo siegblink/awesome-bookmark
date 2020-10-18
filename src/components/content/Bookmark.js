@@ -34,7 +34,7 @@ const useStyles = makeStyles(function (theme) {
 })
 
 export default function Bookmark(props) {
-  const { bookmark, openEditDrawer } = props
+  const { bookmark, openEditDrawer, dispatch } = props
   const classes = useStyles()
 
   return (
@@ -55,6 +55,7 @@ export default function Bookmark(props) {
           openEditDrawer={openEditDrawer}
           currentBookmarkName={bookmark.name}
           currentBookmarkLink={bookmark.link}
+          dispatch={dispatch}
         />
       </CardActions>
     </Card>
