@@ -238,6 +238,9 @@ export function BookmarkForm(props) {
     if (!name && !link && !category) {
       return
     }
+    if (!name || !link || !category) {
+      return
+    }
 
     setBookmarks({ type: 'SET_BOOKMARKS', payload: { name, link, category } })
     setName('')
