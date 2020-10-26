@@ -1,4 +1,5 @@
-import { Fragment } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom'
+import { Fragment } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -39,11 +40,13 @@ export default function SidebarList() {
 
   return (
     <Fragment>
-      <List>
-        {sidebarItems.map(function (sidebarItem, index) {
-          return <SidebarListItem key={index} sidebarItem={sidebarItem} />
-        })}
-      </List>
+      <Router>
+        <List>
+          {sidebarItems.map(function (sidebarItem, index) {
+            return <SidebarListItem key={index} sidebarItem={sidebarItem} />
+          })}
+        </List>
+      </Router>
       <Divider />
       <List>
         <ListItem button className={classes.listItem}>
