@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from 'react'
+import { useState, useReducer, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Paper from '@material-ui/core/Paper'
