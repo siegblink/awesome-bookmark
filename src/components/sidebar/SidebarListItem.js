@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
@@ -22,7 +23,9 @@ export default function SidebarListItem(props) {
   return (
     <ListItem button className={classes.listItem}>
       <Tooltip arrow title={text} placement='right'>
-        <ListItemIcon>{icon}</ListItemIcon>
+        <Link to={text.toLowerCase()}>
+          <ListItemIcon>{icon}</ListItemIcon>
+        </Link>
       </Tooltip>
       <ListItemText primary={text} />
     </ListItem>
