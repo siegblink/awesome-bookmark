@@ -9,15 +9,7 @@ import Typography from '@material-ui/core/Typography'
 import MoreOptionsButton from './MoreOptionsButton'
 import Tooltip from '@material-ui/core/Tooltip'
 
-const media = [
-  'https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2600&q=80',
-  'https://images.unsplash.com/photo-1588392382834-a891154bca4d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2255&q=80',
-  'https://images.unsplash.com/photo-1502082553048-f009c37129b9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80',
-  'https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2200&q=80',
-  'https://images.unsplash.com/photo-1471513671800-b09c87e1497c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80',
-]
-
-const useStyles = makeStyles(function (theme) {
+const useStyles = makeStyles(() => {
   return {
     root: {
       minWidth: 275,
@@ -52,13 +44,11 @@ export default function Bookmark(props) {
   const { bookmark, openEditDrawer, dispatch } = props
   const classes = useStyles()
 
-  const imageUrl = media[Math.floor(Math.random() * 5)]
-
   return (
     <Card className={classes.root}>
       <CardMedia
         className={classes.cover}
-        image={imageUrl}
+        image='/dummy-img.png'
         title='Image of nature'
       />
       <div className={classes.details}>
