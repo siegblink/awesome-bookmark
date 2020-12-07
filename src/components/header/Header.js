@@ -116,7 +116,7 @@ export default function Header(props) {
           <span className={classes.currentBookmark}>Personal</span>
         </Typography>
         <SearchInputField />
-        <Hidden mdUp>
+        <Hidden lgUp>
           <FormDialog />
         </Hidden>
       </ToolBar>
