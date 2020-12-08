@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import * as React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -12,6 +12,8 @@ import AddIcon from '@material-ui/icons/Add'
 import Tooltip from '@material-ui/core/Tooltip'
 import { CustomSelect } from '../main/Main'
 
+const { useState } = React
+
 const useStyles = makeStyles(function (theme) {
   return {
     formControl: {
@@ -20,12 +22,20 @@ const useStyles = makeStyles(function (theme) {
     iconButton: {
       marginLeft: theme.spacing(1),
     },
+    form: {
+      '& > * + *': {
+        marginTop: theme.spacing(2),
+      },
+    },
   }
 })
 
 export default function FormDialog() {
   const classes = useStyles()
-  const [open, setOpen] = useState(false)
+  const [name, setName] = useState('')
+  const [link, setLink] = useState('')
+  const [category, setCategory] = useState('')
+  const [open, setOpen] = React.useState(false)
 
   function handleClickOpen() {
     setOpen(true)
@@ -35,9 +45,21 @@ export default function FormDialog() {
     setOpen(false)
   }
 
+  function handleNameChange(event) {
+    setName(event.target.value)
+  }
+
+  function handleLinkChange(event) {
+    setLink(event.target.value)
+  }
+
+  function handleCategoryChange(event) {
+    setCategory(event.target.value)
+  }
+
   return (
     <div>
-      <Tooltip title='Add new bookmark'>
+      <Tooltip arrow title='Add new bookmark'>
         <IconButton
           aria-label='add a new bookmark'
           aria-controls='menu-appbar'
@@ -59,23 +81,32 @@ export default function FormDialog() {
           <DialogContentText>
             Enter the bookmark name, url, and category.
           </DialogContentText>
-          <TextField
-            margin='dense'
-            id='bookmarkName'
-            label='Bookmark name'
-            type='text'
-            variant='filled'
-            fullWidth
-          />
-          <TextField
-            margin='dense'
-            id='bookmarkUrl'
-            label='Bookmark URL'
-            type='text'
-            variant='filled'
-            fullWidth
-          />
-          <CustomSelect />
+          <form className={classes.form}>
+            <TextField
+              value={name}
+              onChange={handleNameChange}
+              margin='dense'
+              id='bookmarkName'
+              label='Bookmark name'
+              type='text'
+              variant='filled'
+              fullWidth
+            />
+            <TextField
+              value={link}
+              onChange={handleLinkChange}
+              margin='dense'
+              id='bookmarkUrl'
+              label='Bookmark URL'
+              type='text'
+              variant='filled'
+              fullWidth
+            />
+            <CustomSelect
+              category={category}
+              handleCategoryChange={handleCategoryChange}
+            />
+          </form>
         </DialogContent>
         <DialogActions style={{ padding: '16px 24px 24px' }}>
           <Button
