@@ -1,4 +1,4 @@
-import { useState, useReducer, useEffect } from 'react';
+import * as React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Paper from '@material-ui/core/Paper'
@@ -18,6 +18,9 @@ import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
 import SidebarList from '../sidebar/SidebarList'
 import RightSideDrawer from '../sidebar/RightSideDrawer'
+import FormDialog from '../header/FormDialog'
+
+const { useState, useEffect, useReducer } = React
 
 const useStyles = makeStyles(function (theme) {
   return {
@@ -159,7 +162,11 @@ export default function Main() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Header open={open} handleDrawerOpen={handleDrawerOpen} />
+      <Header open={open} handleDrawerOpen={handleDrawerOpen}>
+        <Hidden lgUp>
+          <FormDialog />
+        </Hidden>
+      </Header>
       <Sidebar open={open} handleDrawerClose={handleDrawerClose}>
         <SidebarList />
       </Sidebar>
@@ -311,7 +318,7 @@ const tabNames = [
 
 export function CustomSelect(props) {
   const classes = useStyles()
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = React.useState(false)
   const { name, category, handleCategoryChange } = props
 
   const handleClose = () => {
@@ -326,7 +333,7 @@ export function CustomSelect(props) {
     <FormControl variant='filled' className={classes.customSelect}>
       <InputLabel id='select-bookmark-input'>Category</InputLabel>
       <Select
-        name={name || 'custom-select'}
+        name={name}
         labelId='bookmark-category'
         id='bookmark-category'
         open={open}
