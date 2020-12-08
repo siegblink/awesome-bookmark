@@ -9,8 +9,6 @@ import InputBase from '@material-ui/core/InputBase'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import Hidden from '@material-ui/core/Hidden'
-import FormDialog from './FormDialog'
 
 const drawerWidth = 240
 
@@ -116,9 +114,7 @@ export default function Header(props) {
           <span className={classes.currentBookmark}>Personal</span>
         </Typography>
         <SearchInputField />
-        <Hidden lgUp>
-          <FormDialog />
-        </Hidden>
+        {props.children}
       </ToolBar>
     </AppBar>
   )
