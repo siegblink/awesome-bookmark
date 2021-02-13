@@ -10,7 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
 import Tooltip from '@material-ui/core/Tooltip'
-import { CustomSelect } from '../main/Main'
+import CustomSelect from '../form/CustomSelect'
 
 const { useState } = React
 
