@@ -1,24 +1,18 @@
 import * as React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
 import Hidden from '@material-ui/core/Hidden'
-import FormControl from '@material-ui/core/FormControl'
-import FilledInput from '@material-ui/core/FilledInput'
-import InputLabel from '@material-ui/core/InputLabel'
-import MenuItem from '@material-ui/core/MenuItem'
 import Snackbar from '@material-ui/core/Snackbar'
-import MuiAlert from '@material-ui/lab/Alert'
-import Select from '@material-ui/core/Select'
 import Bookmark from '../content/Bookmark'
 import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
 import SidebarList from '../sidebar/SidebarList'
 import RightSideDrawer from '../sidebar/RightSideDrawer'
 import FormDialog from '../header/FormDialog'
+import BookmarkForm from '../form/BookmarkForm'
+import Alert from '../form/Alert'
+import dummyData from '../../db'
 
 const { useState, useEffect, useReducer } = React
 
@@ -40,50 +34,8 @@ const useStyles = makeStyles(function (theme) {
       // Necessary for content to be below app bar
       ...theme.mixins.toolbar,
     },
-    paper: {
-      padding: theme.spacing(3),
-      paddingTop: theme.spacing(2),
-      paddingBottom: theme.spacing(1),
-    },
-    textFieldGroup: {
-      padding: '24px 0 8px',
-      display: 'grid',
-      gap: '20px',
-    },
-    textField: {
-      margin: theme.spacing(1),
-    },
-    buttonGroup: {
-      padding: '16px 0',
-      display: 'flex',
-      justifyContent: 'flex-end',
-    },
-    cancelButton: {
-      marginRight: '16px',
-    },
-    customSelect: {
-      width: '100%',
-    },
   }
 })
-
-const data = [
-  {
-    name: 'github-octodex',
-    link: 'https://octodex.github.com',
-    category: 'Github',
-  },
-  {
-    name: 'mastering-markdown-github-guide',
-    link: 'https://guides.github.com/features/mastering-markdown/',
-    category: 'Github',
-  },
-  {
-    name: 'github-high-scores',
-    link: 'https://leereilly.net/github-high-scores/',
-    category: 'Github',
-  },
-]
 
 function bookmarkReducer(state, action) {
   switch (action.type) {
@@ -98,10 +50,6 @@ function bookmarkReducer(state, action) {
 
 const initialBookmarkData = { name: '', link: '', category: '' }
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant='filled' {...props} />
-}
-
 export default function Main() {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
@@ -110,11 +58,11 @@ export default function Main() {
   const [currentBookmarkName, setCurrentBookmarkName] = useState('')
   const [currentBookmarkLink, setCurrentBookmarkLink] = useState('')
   const [currentBookmarkCategory, setCurrentBookmarkCategory] = useState('')
-  const [state, dispatch] = useReducer(bookmarkReducer, data)
+  const [state, dispatch] = useReducer(bookmarkReducer, dummyData)
   const [openSnackbar, setOpenSnackbar] = useState(false)
 
   useEffect(function () {
-    const firstBookmarkEntry = data[0]
+    const firstBookmarkEntry = dummyData[0]
     setCurrentBookmarkCategory(firstBookmarkEntry.category)
   }, [])
 
@@ -218,138 +166,5 @@ export default function Main() {
         </Alert>
       </Snackbar>
     </div>
-  )
-}
-
-export function BookmarkForm(props) {
-  const classes = useStyles()
-  const [name, setName] = useState('')
-  const [link, setLink] = useState('')
-  const [category, setCategory] = useState('')
-  const { setBookmarks } = props
-
-  function handleNameChange(event) {
-    setName(event.target.value)
-  }
-
-  function handleLinkChange(event) {
-    setLink(event.target.value)
-  }
-
-  function handleCategoryChange(event) {
-    setCategory(event.target.value)
-  }
-
-  function submitBookmark(event) {
-    event.preventDefault()
-    if (!name && !link && !category) {
-      return
-    }
-    if (!name || !link || !category) {
-      return
-    }
-
-    setBookmarks({ type: 'SET_BOOKMARKS', payload: { name, link, category } })
-    setName('')
-    setLink('')
-    setCategory('')
-    props.setOpenSnackbar(true)
-  }
-
-  function clearBookmark(event) {
-    event.preventDefault()
-    setName('')
-    setLink('')
-    setCategory('')
-  }
-
-  return (
-    <Paper className={classes.paper}>
-      <Typography variant='h5'>Add new bookmark</Typography>
-      <Typography color='textSecondary'>
-        Enter the bookmark name, url, and category.
-      </Typography>
-      <div className={classes.textFieldGroup}>
-        <FormControl fullWidth variant='filled' className={classes.margin}>
-          <InputLabel htmlFor='bookmark-name'>Name</InputLabel>
-          <FilledInput
-            id='bookmark-name'
-            value={name}
-            onChange={handleNameChange}
-          />
-        </FormControl>
-        <FormControl fullWidth variant='filled' className={classes.margin}>
-          <InputLabel htmlFor='bookmark-link'>Link</InputLabel>
-          <FilledInput
-            id='bookmark-link'
-            value={link}
-            onChange={handleLinkChange}
-          />
-        </FormControl>
-        <CustomSelect
-          category={category}
-          handleCategoryChange={handleCategoryChange}
-        />
-      </div>
-      <div className={classes.buttonGroup}>
-        <Button
-          color='primary'
-          className={classes.cancelButton}
-          onClick={clearBookmark}
-        >
-          Clear
-        </Button>
-        <Button variant='contained' color='primary' onClick={submitBookmark}>
-          Add bookmark
-        </Button>
-      </div>
-    </Paper>
-  )
-}
-
-const tabNames = [
-  'Personal',
-  'Github',
-  'Important',
-  'Libraries',
-  'Tools',
-  'Others',
-]
-
-export function CustomSelect(props) {
-  const classes = useStyles()
-  const [open, setOpen] = React.useState(false)
-  const { name, category, handleCategoryChange } = props
-
-  const handleClose = () => {
-    setOpen(false)
-  }
-
-  const handleOpen = () => {
-    setOpen(true)
-  }
-
-  return (
-    <FormControl variant='filled' className={classes.customSelect}>
-      <InputLabel id='select-bookmark-input'>Category</InputLabel>
-      <Select
-        name={name}
-        labelId='bookmark-category'
-        id='bookmark-category'
-        open={open}
-        onClose={handleClose}
-        onOpen={handleOpen}
-        value={category}
-        onChange={handleCategoryChange}
-      >
-        {tabNames.map((tabName) => {
-          return (
-            <MenuItem key={tabName} value={tabName}>
-              {tabName}
-            </MenuItem>
-          )
-        })}
-      </Select>
-    </FormControl>
   )
 }
