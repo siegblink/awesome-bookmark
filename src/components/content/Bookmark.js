@@ -48,7 +48,7 @@ export default function Bookmark(props) {
     <Card className={classes.root}>
       <CardMedia
         className={classes.cover}
-        image='/dummy-img.png'
+        image='dummy-img.png'
         title='Image of nature'
       />
       <div className={classes.details}>
