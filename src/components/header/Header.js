@@ -97,17 +97,17 @@ export default function Header(props) {
       className={clsx(classes.appBar, { [classes.appBarShift]: open })}
     >
       <ToolBar>
-        <Tooltip title='Open menu' placement='right' arrow>
-          <IconButton
-            aria-label='open drawer'
-            color='inherit'
-            edge='start'
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
+        <IconButton
+          aria-label='open drawer'
+          color='inherit'
+          edge='start'
+          onClick={handleDrawerOpen}
+          className={clsx(classes.menuButton, open && classes.hide)}
+        >
+          <Tooltip title='Open menu' placement='right' arrow>
             <MenuIcon />
-          </IconButton>
-        </Tooltip>
+          </Tooltip>
+        </IconButton>
         <Typography variant='h6' noWrap className={classes.headerTitle}>
           Awesome Bookmark
           <ChevronRightIcon className={classes.currentBookmark} />
