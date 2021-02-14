@@ -11,7 +11,7 @@ import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
 import SidebarList from '../sidebar/SidebarList'
 import RightSideDrawer from '../sidebar/RightSideDrawer'
-import FormDialog from '../header/FormDialog'
+import AddBookmarkButton from '../header/AddBookmarkButton'
 import BookmarkForm from '../form/BookmarkForm'
 import Alert from '../form/Alert'
 import dummyData from '../../db'
@@ -124,7 +124,7 @@ export default function Main() {
       <CssBaseline />
       <Header open={open} handleDrawerOpen={handleDrawerOpen}>
         <Hidden lgUp>
-          <FormDialog />
+          <AddBookmarkButton />
         </Hidden>
       </Header>
       <Sidebar open={open} handleDrawerClose={handleDrawerClose}>
@@ -132,13 +132,13 @@ export default function Main() {
       </Sidebar>
       <RightSideDrawer
         open={openEditDrawer}
-        handleClose={handleCloseEditDrawer}
+        closeDrawer={handleCloseEditDrawer}
         editedBookmark={editedBookmark}
-        handleEditedBookmark={handleEditedBookmark}
+        setEditedBookmark={handleEditedBookmark}
         currentBookmarkName={currentBookmarkName}
         currentBookmarkLink={currentBookmarkLink}
         currentBookmarkCategory={currentBookmarkCategory}
-        handleSubmitEditedBookmark={handleSubmitEditedBookmark}
+        submitEditedBookmark={handleSubmitEditedBookmark}
       />
       <main className={classes.content}>
         <div className={classes.contentAdjustment}></div>

@@ -4,11 +4,10 @@ import AppBar from '@material-ui/core/AppBar'
 import ToolBar from '@material-ui/core/ToolBar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import SearchIcon from '@material-ui/icons/Search'
-import InputBase from '@material-ui/core/InputBase'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import SearchInputField from './SearchInputField'
 
 const drawerWidth = 240
 
@@ -117,25 +116,5 @@ export default function Header(props) {
         {props.children}
       </ToolBar>
     </AppBar>
-  )
-}
-
-function SearchInputField() {
-  const classes = useStyles()
-
-  return (
-    <div className={classes.searchBar}>
-      <div className={classes.searchIcon}>
-        <SearchIcon />
-      </div>
-      <InputBase
-        placeholder='Search'
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }}
-        inputProps={{ 'aria-label': 'search' }}
-      />
-    </div>
   )
 }
