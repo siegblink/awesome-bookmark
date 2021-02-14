@@ -1,4 +1,5 @@
 import * as React from 'react'
+import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -11,6 +12,7 @@ const useStyles = makeStyles(function () {
   return {
     customSelect: {
       width: '100%',
+      marginTop: '1rem',
     },
   }
 })
@@ -27,7 +29,6 @@ const tabNames = [
 export default function CustomSelect(props) {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
-  const { name, category, handleCategoryChange } = props
 
   const handleClose = () => {
     setOpen(false)
@@ -38,17 +39,20 @@ export default function CustomSelect(props) {
   }
 
   return (
-    <FormControl variant='filled' className={classes.customSelect}>
+    <FormControl
+      variant='filled'
+      className={clsx({ [classes.customSelect]: props.marginTop })}
+    >
       <InputLabel id='select-bookmark-input'>Category</InputLabel>
       <Select
-        name={name}
-        labelId='bookmark-category'
         id='bookmark-category'
+        labelId='bookmark-category'
+        name={props.name}
         open={open}
+        value={props.category}
+        onChange={props.setCategory}
         onClose={handleClose}
         onOpen={handleOpen}
-        value={category}
-        onChange={handleCategoryChange}
       >
         {tabNames.map((tabName) => {
           return (
