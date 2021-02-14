@@ -22,11 +22,17 @@ export default function SidebarListItem(props) {
 
   return (
     <ListItem button className={classes.listItem}>
-      <Tooltip arrow title={text} placement='right'>
-        <Link to={text.toLowerCase()}>
-          <ListItemIcon>{icon}</ListItemIcon>
-        </Link>
-      </Tooltip>
+      <Link to={text.toLowerCase()}>
+        <ListItemIcon>
+          <Tooltip
+            arrow
+            title={text}
+            placement={props.isSidebarOpen ? 'top' : 'right'}
+          >
+            {icon}
+          </Tooltip>
+        </ListItemIcon>
+      </Link>
       <ListItemText primary={text} />
     </ListItem>
   )
