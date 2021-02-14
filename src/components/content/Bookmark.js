@@ -35,7 +35,7 @@ const useStyles = makeStyles(() => {
       },
     },
     cover: {
-      width: 151,
+      minWidth: 151,
     },
   }
 })
