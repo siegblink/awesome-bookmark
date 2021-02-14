@@ -1,15 +1,17 @@
 import * as React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
 import Snackbar from '@material-ui/core/Snackbar'
+import CollectionsBookmarkRoundedIcon from '@material-ui/icons/CollectionsBookmarkRounded'
 import Bookmark from '../content/Bookmark'
 import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
 import SidebarList from '../sidebar/SidebarList'
 import RightSideDrawer from '../sidebar/RightSideDrawer'
-import FormDialog from '../header/FormDialog'
+import AddBookmarkButton from '../header/AddBookmarkButton'
 import BookmarkForm from '../form/BookmarkForm'
 import Alert from '../form/Alert'
 import dummyData from '../../db'
@@ -33,6 +35,16 @@ const useStyles = makeStyles(function (theme) {
       padding: theme.spacing(0, 1),
       // Necessary for content to be below app bar
       ...theme.mixins.toolbar,
+    },
+    emptyBookmarkContainer: {
+      alignSelf: 'center',
+      display: 'grid',
+      placeContent: 'center',
+      placeItems: 'center',
+    },
+    bookmarkIcon: {
+      fontSize: '17rem',
+      color: theme.palette.text.secondary,
     },
   }
 })
@@ -112,37 +124,50 @@ export default function Main() {
       <CssBaseline />
       <Header open={open} handleDrawerOpen={handleDrawerOpen}>
         <Hidden lgUp>
-          <FormDialog />
+          <AddBookmarkButton />
         </Hidden>
       </Header>
       <Sidebar open={open} handleDrawerClose={handleDrawerClose}>
-        <SidebarList />
+        <SidebarList isSidebarOpen={open} />
       </Sidebar>
       <RightSideDrawer
         open={openEditDrawer}
-        handleClose={handleCloseEditDrawer}
+        closeDrawer={handleCloseEditDrawer}
         editedBookmark={editedBookmark}
-        handleEditedBookmark={handleEditedBookmark}
+        setEditedBookmark={handleEditedBookmark}
         currentBookmarkName={currentBookmarkName}
         currentBookmarkLink={currentBookmarkLink}
         currentBookmarkCategory={currentBookmarkCategory}
-        handleSubmitEditedBookmark={handleSubmitEditedBookmark}
+        submitEditedBookmark={handleSubmitEditedBookmark}
       />
       <main className={classes.content}>
         <div className={classes.contentAdjustment}></div>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={6}>
-            {state.map(function (bookmark) {
-              const { name } = bookmark
-              return (
-                <Bookmark
-                  key={name}
-                  bookmark={bookmark}
-                  openEditDrawer={handleOpenEditDrawer}
-                  dispatch={dispatch}
+            {!state.length ? (
+              <div className={classes.emptyBookmarkContainer}>
+                <CollectionsBookmarkRoundedIcon
+                  fontSize='large'
+                  className={classes.bookmarkIcon}
                 />
-              )
-            })}
+                <Typography variant='h5'>Add bookmarks now</Typography>
+                <Typography color='textSecondary'>
+                  There are no available bookmarks to display.
+                </Typography>
+              </div>
+            ) : (
+              state.map(function (bookmark) {
+                const { name } = bookmark
+                return (
+                  <Bookmark
+                    key={name}
+                    bookmark={bookmark}
+                    openEditDrawer={handleOpenEditDrawer}
+                    dispatch={dispatch}
+                  />
+                )
+              })
+            )}
           </Grid>
           <Hidden mdDown>
             <Grid item xs={12} lg={6}>

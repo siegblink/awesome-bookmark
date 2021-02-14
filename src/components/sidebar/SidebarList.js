@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Fragment } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
@@ -11,9 +12,11 @@ import LabelImportantIcon from '@material-ui/icons/LabelImportant'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
 import BuildIcon from '@material-ui/icons/Build'
 import BeenhereIcon from '@material-ui/icons/Beenhere'
-import SidebarListItem from './SidebarListItem'
 import AddIcon from '@material-ui/icons/Add'
 import Divider from '@material-ui/core/Divider'
+import Tooltip from '@material-ui/core/Tooltip'
+import SidebarListItem from './SidebarListItem'
+import BookmarkGroupDialog from '../dialog/BookmarkGroupDialog'
 
 const useStyles = makeStyles(function (theme) {
   return {
@@ -26,8 +29,9 @@ const useStyles = makeStyles(function (theme) {
   }
 })
 
-export default function SidebarList() {
+export default function SidebarList(props) {
   const classes = useStyles()
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const sidebarItems = [
     { text: 'Personal', icon: <AccountCircleIcon /> },
@@ -38,24 +42,48 @@ export default function SidebarList() {
     { text: 'Others', icon: <BeenhereIcon /> },
   ]
 
+  function openDialog() {
+    setIsDialogOpen(true)
+  }
+
+  function closeDialog() {
+    setIsDialogOpen(false)
+  }
+
   return (
     <Fragment>
       <Router>
         <List>
           {sidebarItems.map(function (sidebarItem, index) {
-            return <SidebarListItem key={index} sidebarItem={sidebarItem} />
+            return (
+              <SidebarListItem
+                key={index}
+                sidebarItem={sidebarItem}
+                isSidebarOpen={props.isSidebarOpen}
+              />
+            )
           })}
         </List>
       </Router>
       <Divider />
       <List>
         <ListItem button className={classes.listItem}>
-          <ListItemIcon>
-            <AddIcon />
+          <ListItemIcon onClick={openDialog}>
+            <Tooltip
+              arrow
+              title='Add new group'
+              placement={props.isSidebarOpen ? 'top' : 'right'}
+            >
+              <AddIcon />
+            </Tooltip>
           </ListItemIcon>
           <ListItemText primary={'Add category'} />
         </ListItem>
       </List>
+      <BookmarkGroupDialog
+        isDialogOpen={isDialogOpen}
+        closeDialog={closeDialog}
+      />
     </Fragment>
   )
 }
