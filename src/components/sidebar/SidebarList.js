@@ -67,8 +67,8 @@ export default function SidebarList(props) {
       </Router>
       <Divider />
       <List>
-        <ListItem button className={classes.listItem}>
-          <ListItemIcon onClick={openDialog}>
+        <ListItem button onClick={openDialog} className={classes.listItem}>
+          <ListItemIcon>
             <Tooltip
               arrow
               title='Add new group'

@@ -100,7 +100,7 @@ export default function BookmarkForm(props) {
         </FormControl>
         <CustomSelect
           category={category}
-          handleCategoryChange={handleCategoryChange}
+          setCategory={handleCategoryChange}
         />
       </div>
       <div className={classes.buttonGroup}>

@@ -13,6 +13,12 @@ const useStyles = makeStyles(function (theme) {
         paddingLeft: 24,
       },
     },
+    listItemText: {
+      color: theme.palette.text.primary,
+    },
+    link: {
+      textDecoration: 'none',
+    },
   }
 })
 
@@ -21,8 +27,8 @@ export default function SidebarListItem(props) {
   const { text, icon } = props.sidebarItem
 
   return (
-    <ListItem button className={classes.listItem}>
-      <Link to={text.toLowerCase()}>
+    <Link to={text.toLowerCase()} className={classes.link}>
+      <ListItem button className={classes.listItem}>
         <ListItemIcon>
           <Tooltip
             arrow
@@ -32,8 +38,8 @@ export default function SidebarListItem(props) {
             {icon}
           </Tooltip>
         </ListItemIcon>
-      </Link>
-      <ListItemText primary={text} />
-    </ListItem>
+        <ListItemText primary={text} className={classes.listItemText} />
+      </ListItem>
+    </Link>
   )
 }
