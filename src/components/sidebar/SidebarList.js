@@ -11,9 +11,10 @@ import LabelImportantIcon from '@material-ui/icons/LabelImportant'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
 import BuildIcon from '@material-ui/icons/Build'
 import BeenhereIcon from '@material-ui/icons/Beenhere'
-import SidebarListItem from './SidebarListItem'
 import AddIcon from '@material-ui/icons/Add'
 import Divider from '@material-ui/core/Divider'
+import Tooltip from '@material-ui/core/Tooltip'
+import SidebarListItem from './SidebarListItem'
 
 const useStyles = makeStyles(function (theme) {
   return {
@@ -26,7 +27,7 @@ const useStyles = makeStyles(function (theme) {
   }
 })
 
-export default function SidebarList() {
+export default function SidebarList(props) {
   const classes = useStyles()
 
   const sidebarItems = [
@@ -43,7 +44,13 @@ export default function SidebarList() {
       <Router>
         <List>
           {sidebarItems.map(function (sidebarItem, index) {
-            return <SidebarListItem key={index} sidebarItem={sidebarItem} />
+            return (
+              <SidebarListItem
+                key={index}
+                sidebarItem={sidebarItem}
+                isSidebarOpen={props.isSidebarOpen}
+              />
+            )
           })}
         </List>
       </Router>
@@ -51,7 +58,13 @@ export default function SidebarList() {
       <List>
         <ListItem button className={classes.listItem}>
           <ListItemIcon>
-            <AddIcon />
+            <Tooltip
+              arrow
+              title='Add new category'
+              placement={props.isSidebarOpen ? 'top' : 'right'}
+            >
+              <AddIcon />
+            </Tooltip>
           </ListItemIcon>
           <ListItemText primary={'Add category'} />
         </ListItem>

@@ -128,7 +128,7 @@ export default function Main() {
         </Hidden>
       </Header>
       <Sidebar open={open} handleDrawerClose={handleDrawerClose}>
-        <SidebarList />
+        <SidebarList isSidebarOpen={open} />
       </Sidebar>
       <RightSideDrawer
         open={openEditDrawer}
