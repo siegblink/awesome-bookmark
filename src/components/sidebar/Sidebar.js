@@ -67,7 +67,7 @@ export default function Sidebar(props) {
         }}
       >
         <div className={classes.toolbar}>
-          <Tooltip arrow title='Close sidebar' placement='left'>
+          <Tooltip arrow title='Close menu' placement='left'>
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === 'rtl' ? (
                 <ChevronRightIcon />

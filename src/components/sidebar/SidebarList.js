@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Fragment } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
@@ -15,6 +16,7 @@ import AddIcon from '@material-ui/icons/Add'
 import Divider from '@material-ui/core/Divider'
 import Tooltip from '@material-ui/core/Tooltip'
 import SidebarListItem from './SidebarListItem'
+import BookmarkGroupDialog from '../dialog/BookmarkGroupDialog'
 
 const useStyles = makeStyles(function (theme) {
   return {
@@ -29,6 +31,7 @@ const useStyles = makeStyles(function (theme) {
 
 export default function SidebarList(props) {
   const classes = useStyles()
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const sidebarItems = [
     { text: 'Personal', icon: <AccountCircleIcon /> },
@@ -38,6 +41,14 @@ export default function SidebarList(props) {
     { text: 'Tools', icon: <BuildIcon /> },
     { text: 'Others', icon: <BeenhereIcon /> },
   ]
+
+  function openDialog() {
+    setIsDialogOpen(true)
+  }
+
+  function closeDialog() {
+    setIsDialogOpen(false)
+  }
 
   return (
     <Fragment>
@@ -57,10 +68,10 @@ export default function SidebarList(props) {
       <Divider />
       <List>
         <ListItem button className={classes.listItem}>
-          <ListItemIcon>
+          <ListItemIcon onClick={openDialog}>
             <Tooltip
               arrow
-              title='Add new category'
+              title='Add new group'
               placement={props.isSidebarOpen ? 'top' : 'right'}
             >
               <AddIcon />
@@ -69,6 +80,10 @@ export default function SidebarList(props) {
           <ListItemText primary={'Add category'} />
         </ListItem>
       </List>
+      <BookmarkGroupDialog
+        isDialogOpen={isDialogOpen}
+        closeDialog={closeDialog}
+      />
     </Fragment>
   )
 }
