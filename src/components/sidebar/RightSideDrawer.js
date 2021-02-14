@@ -10,35 +10,36 @@ import CustomSelect from '../form/CustomSelect'
 const useStyles = makeStyles({
   list: {
     width: 400,
-    padding: '24px',
-
-    '& > * + *': {
-      marginTop: '24px',
-    },
+    padding: '1.5rem',
   },
   form: {
-    '& > * + *': {
-      marginTop: '24px',
-    },
+    display: 'grid',
+    gap: '1rem',
   },
   currentBookmarkInfo: {
-    paddingTop: '24px',
+    marginTop: '2rem',
+  },
+  detailsContainer: {
+    display: 'grid',
+    gap: '1rem',
   },
 })
 
 export default function RightSideDrawer(props) {
   const classes = useStyles()
-  const { open, handleClose, editedBookmark } = props
-  const { handleEditedBookmark, currentBookmarkName } = props
+  const { open, closeDrawer, editedBookmark } = props
+  const { setEditedBookmark, currentBookmarkName } = props
   const { currentBookmarkLink, currentBookmarkCategory } = props
-  const { handleSubmitEditedBookmark } = props
+  const { submitEditedBookmark } = props
   const { name, link, category } = editedBookmark
 
   return (
     <div>
-      <Drawer anchor='right' open={open} onClose={handleClose}>
+      <Drawer anchor='right' open={open} onClose={closeDrawer}>
         <div className={classes.list} role='presentation'>
-          <Typography variant='h5'>Edit bookmark</Typography>
+          <Typography variant='h5' gutterBottom>
+            Edit bookmark
+          </Typography>
 
           <form className={classes.form}>
             <FormControl fullWidth variant='filled'>
@@ -47,7 +48,7 @@ export default function RightSideDrawer(props) {
                 id='bookmark-name'
                 name='name'
                 value={name}
-                onChange={handleEditedBookmark}
+                onChange={setEditedBookmark}
               />
             </FormControl>
 
@@ -57,14 +58,14 @@ export default function RightSideDrawer(props) {
                 id='bookmark-link'
                 name='link'
                 value={link}
-                onChange={handleEditedBookmark}
+                onChange={setEditedBookmark}
               />
             </FormControl>
 
             <CustomSelect
               name='category'
               category={category}
-              handleCategoryChange={handleEditedBookmark}
+              setCategory={setEditedBookmark}
             />
 
             <Button
@@ -72,29 +73,44 @@ export default function RightSideDrawer(props) {
               variant='contained'
               size='large'
               type='submit'
-              onClick={handleSubmitEditedBookmark}
+              onClick={submitEditedBookmark}
             >
               Save edits
             </Button>
+
+            <Button
+              variant='outlined'
+              size='large'
+              type='submit'
+              onClick={submitEditedBookmark}
+            >
+              Cancel
+            </Button>
           </form>
 
-          <Typography variant='h5' className={classes.currentBookmarkInfo}>
-            Current bookmark info
+          <Typography
+            gutterBottom
+            variant='h5'
+            className={classes.currentBookmarkInfo}
+          >
+            Details
           </Typography>
-          <div>
-            <Typography variant='caption'>Name</Typography>
-            <Typography variant='subtitle1'>{currentBookmarkName}</Typography>
-          </div>
-          <div>
-            <Typography variant='caption'>Link</Typography>
-            <Typography variant='subtitle1'>{currentBookmarkLink}</Typography>
-          </div>
-          <div>
-            <Typography variant='caption'>Category</Typography>
-            <Typography variant='subtitle1'>
-              {currentBookmarkCategory}
-            </Typography>
-          </div>
+          <section className={classes.detailsContainer}>
+            <div>
+              <Typography variant='caption'>Name</Typography>
+              <Typography variant='subtitle1'>{currentBookmarkName}</Typography>
+            </div>
+            <div>
+              <Typography variant='caption'>Link</Typography>
+              <Typography variant='subtitle1'>{currentBookmarkLink}</Typography>
+            </div>
+            <div>
+              <Typography variant='caption'>Category</Typography>
+              <Typography variant='subtitle1'>
+                {currentBookmarkCategory}
+              </Typography>
+            </div>
+          </section>
         </div>
       </Drawer>
     </div>
