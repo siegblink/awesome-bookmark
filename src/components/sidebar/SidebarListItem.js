@@ -27,7 +27,7 @@ export default function SidebarListItem(props) {
   const { text, icon } = props.sidebarItem
 
   return (
-    <Link to={text.toLowerCase()} className={classes.link}>
+    <Link to={`/${text.toLowerCase()}`} className={classes.link}>
       <ListItem button className={classes.listItem}>
         <ListItemIcon>
           <Tooltip
