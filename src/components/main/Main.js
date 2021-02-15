@@ -1,4 +1,5 @@
-import * as React from 'react'
+import { useState, useEffect, useReducer } from 'react'
+import { Route, Switch } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Typography from '@material-ui/core/Typography'
@@ -15,8 +16,6 @@ import AddBookmarkButton from '../header/AddBookmarkButton'
 import BookmarkForm from '../form/BookmarkForm'
 import Alert from '../form/Alert'
 import dummyData from '../../db'
-
-const { useState, useEffect, useReducer } = React
 
 const useStyles = makeStyles(function (theme) {
   return {
@@ -156,17 +155,36 @@ export default function Main() {
                 </Typography>
               </div>
             ) : (
-              state.map(function (bookmark) {
-                const { name } = bookmark
-                return (
-                  <Bookmark
-                    key={name}
-                    bookmark={bookmark}
-                    openEditDrawer={handleOpenEditDrawer}
-                    dispatch={dispatch}
-                  />
-                )
-              })
+              <Switch>
+                <Route exact path='/personal'>
+                  {state.map(function (bookmark) {
+                    const { name } = bookmark
+                    return (
+                      <Bookmark
+                        key={name}
+                        bookmark={bookmark}
+                        openEditDrawer={handleOpenEditDrawer}
+                        dispatch={dispatch}
+                      />
+                    )
+                  })}
+                </Route>
+                <Route path='/github'>
+                  <div>Github</div>
+                </Route>
+                <Route path='/important'>
+                  <div>Important</div>
+                </Route>
+                <Route path='/libraries'>
+                  <div>Libraries</div>
+                </Route>
+                <Route path='/tools'>
+                  <div>Tools</div>
+                </Route>
+                <Route path='/others'>
+                  <div>Others</div>
+                </Route>
+              </Switch>
             )}
           </Grid>
           <Hidden mdDown>
