@@ -1,5 +1,5 @@
 import { useState, useEffect, useReducer } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Typography from '@material-ui/core/Typography'
@@ -156,7 +156,10 @@ export default function Main() {
               </div>
             ) : (
               <Switch>
-                <Route exact path='/personal'>
+                <Route exact path='/'>
+                  <Redirect to='/personal' />
+                </Route>
+                <Route path='/personal'>
                   {state.map(function (bookmark) {
                     const { name } = bookmark
                     return (
