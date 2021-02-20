@@ -2,12 +2,9 @@ import { useState, useEffect, useReducer } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
 import Snackbar from '@material-ui/core/Snackbar'
-import CollectionsBookmarkRoundedIcon from '@material-ui/icons/CollectionsBookmarkRounded'
-import Bookmark from '../content/Bookmark'
 import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
 import SidebarList from '../sidebar/SidebarList'
@@ -15,8 +12,15 @@ import RightSideDrawer from '../sidebar/RightSideDrawer'
 import AddBookmarkButton from '../header/AddBookmarkButton'
 import BookmarkForm from '../form/BookmarkForm'
 import Alert from '../form/Alert'
+import PersonalBookmarks from '../bookmarks/PersonalBookmarks'
+import GithubBookmarks from '../bookmarks/GithubBookmarks'
+import ImportantBookmarks from '../bookmarks/ImportantBookmarks'
+import LibraryBookmarks from '../bookmarks/LibraryBookmarks'
+import ToolBookmarks from '../bookmarks/ToolBookmarks'
+import OtherBookmarks from '../bookmarks/OtherBookmarks'
 import dummyData from '../../db'
 
+/** The 'useStyles' variable houses all the CSS styles that will be used by the main component. */
 const useStyles = makeStyles(function (theme) {
   return {
     root: {
@@ -35,19 +39,14 @@ const useStyles = makeStyles(function (theme) {
       // Necessary for content to be below app bar
       ...theme.mixins.toolbar,
     },
-    emptyBookmarkContainer: {
-      alignSelf: 'center',
-      display: 'grid',
-      placeContent: 'center',
-      placeItems: 'center',
-    },
-    bookmarkIcon: {
-      fontSize: '17rem',
-      color: theme.palette.text.secondary,
-    },
   }
 })
 
+/**
+ * This is a 'Reducer' function that will do all of the state transformation and manipulation.
+ * @param state {object} - This is the accumulated data object used by all the connected components.
+ * @param action {object} - This is the object that represents the kind of transformation will be done to the state.
+ */
 function bookmarkReducer(state, action) {
   switch (action.type) {
     case 'SET_BOOKMARKS':
@@ -59,10 +58,15 @@ function bookmarkReducer(state, action) {
   }
 }
 
+/** Declare 'Initial bookmark' data. */
 const initialBookmarkData = { name: '', link: '', category: '' }
 
+/** This is the main component that renders all the major components. */
 export default function Main() {
+  // Get the styles data from 'useStyles'.
   const classes = useStyles()
+
+  // Declare local state.
   const [open, setOpen] = useState(false)
   const [openEditDrawer, setOpenEditDrawer] = useState(false)
   const [editedBookmark, setEditedBookmark] = useState(initialBookmarkData)
@@ -72,30 +76,36 @@ export default function Main() {
   const [state, dispatch] = useReducer(bookmarkReducer, dummyData)
   const [openSnackbar, setOpenSnackbar] = useState(false)
 
+  /** Declare side effect that sets the 'Current bookmark category' state. */
   useEffect(function () {
     const firstBookmarkEntry = dummyData[0]
     setCurrentBookmarkCategory(firstBookmarkEntry.category)
   }, [])
 
-  function handleDrawerOpen() {
+  /** Event handler for opening the 'Drawer' (Left sidebar) component. */
+  function openDrawer() {
     setOpen(true)
   }
 
-  function handleDrawerClose() {
+  /** Event handler for closing the 'Drawer' (Left sidebar) component. */
+  function closeDrawer() {
     setOpen(false)
   }
 
-  function handleOpenEditDrawer(bookmarkName, bookmarkLink) {
+  /** Event handler for opening the 'Right-side drawer' component. */
+  function openRightSideDrawer(bookmarkName, bookmarkLink) {
     setCurrentBookmarkName(bookmarkName)
     setCurrentBookmarkLink(bookmarkLink)
     setOpenEditDrawer(true)
   }
 
-  function handleCloseEditDrawer() {
+  /** Event handler for closing the 'Right-side drawer' component. */
+  function closeRightSideDrawer() {
     setOpenEditDrawer(false)
   }
 
-  function handleEditedBookmark(event) {
+  /** Event handler for saving an edited bookmark. */
+  function saveEditedBookmark(event) {
     const { name, value } = event.target
     setEditedBookmark(function (previouBookmarkData) {
       return {
@@ -105,12 +115,14 @@ export default function Main() {
     })
   }
 
-  function handleSubmitEditedBookmark(event) {
+  /** Event handler for submitting bookmark data. */
+  function submitEditedBookmark(event) {
     event.preventDefault()
     console.log(editedBookmark)
-    handleCloseEditDrawer()
+    closeRightSideDrawer()
   }
 
+  /** Event handler for closing 'Snackbar' component. */
   function closeSnackbar(event, reason) {
     if (reason === 'clickaway') {
       return
@@ -120,76 +132,89 @@ export default function Main() {
 
   return (
     <div className={classes.root}>
+      {/* CSS reset component */}
       <CssBaseline />
-      <Header open={open} handleDrawerOpen={handleDrawerOpen}>
+
+      {/* Header */}
+      <Header open={open} handleDrawerOpen={openDrawer}>
         <Hidden lgUp>
           <AddBookmarkButton />
         </Hidden>
       </Header>
-      <Sidebar open={open} handleDrawerClose={handleDrawerClose}>
+
+      {/* Left sidebar */}
+      <Sidebar open={open} handleDrawerClose={closeDrawer}>
         <SidebarList isSidebarOpen={open} />
       </Sidebar>
+
+      {/* Right sidebar (Hidden by default) */}
       <RightSideDrawer
         open={openEditDrawer}
-        closeDrawer={handleCloseEditDrawer}
+        closeDrawer={closeRightSideDrawer}
         editedBookmark={editedBookmark}
-        setEditedBookmark={handleEditedBookmark}
+        setEditedBookmark={saveEditedBookmark}
         currentBookmarkName={currentBookmarkName}
         currentBookmarkLink={currentBookmarkLink}
         currentBookmarkCategory={currentBookmarkCategory}
-        submitEditedBookmark={handleSubmitEditedBookmark}
+        submitEditedBookmark={submitEditedBookmark}
       />
+
+      {/* Bookmark list and bookmark form */}
       <main className={classes.content}>
         <div className={classes.contentAdjustment}></div>
         <Grid container spacing={3}>
+          {/* Bookmark list */}
           <Grid item xs={12} lg={6}>
-            {!state.length ? (
-              <div className={classes.emptyBookmarkContainer}>
-                <CollectionsBookmarkRoundedIcon
-                  fontSize='large'
-                  className={classes.bookmarkIcon}
+            <Switch>
+              <Route exact path='/'>
+                <Redirect to='/personal' />
+              </Route>
+              <Route path='/personal'>
+                <PersonalBookmarks
+                  data={state}
+                  dispatch={dispatch}
+                  openRightSideDrawer={openRightSideDrawer}
                 />
-                <Typography variant='h5'>Add bookmarks now</Typography>
-                <Typography color='textSecondary'>
-                  There are no available bookmarks to display.
-                </Typography>
-              </div>
-            ) : (
-              <Switch>
-                <Route exact path='/'>
-                  <Redirect to='/personal' />
-                </Route>
-                <Route path='/personal'>
-                  {state.map(function (bookmark) {
-                    const { name } = bookmark
-                    return (
-                      <Bookmark
-                        key={name}
-                        bookmark={bookmark}
-                        openEditDrawer={handleOpenEditDrawer}
-                        dispatch={dispatch}
-                      />
-                    )
-                  })}
-                </Route>
-                <Route path='/github'>
-                  <div>Github</div>
-                </Route>
-                <Route path='/important'>
-                  <div>Important</div>
-                </Route>
-                <Route path='/libraries'>
-                  <div>Libraries</div>
-                </Route>
-                <Route path='/tools'>
-                  <div>Tools</div>
-                </Route>
-                <Route path='/others'>
-                  <div>Others</div>
-                </Route>
-              </Switch>
-            )}
+              </Route>
+              <Route path='/github'>
+                <GithubBookmarks
+                  data={state}
+                  dispatch={dispatch}
+                  openRightSideDrawer={openRightSideDrawer}
+                />
+              </Route>
+              <Route path='/important'>
+                <ImportantBookmarks
+                  data={state}
+                  dispatch={dispatch}
+                  openRightSideDrawer={openRightSideDrawer}
+                />
+              </Route>
+              <Route path='/libraries'>
+                <LibraryBookmarks
+                  data={state}
+                  dispatch={dispatch}
+                  openRightSideDrawer={openRightSideDrawer}
+                />
+              </Route>
+              <Route path='/tools'>
+                <ToolBookmarks
+                  data={state}
+                  dispatch={dispatch}
+                  openRightSideDrawer={openRightSideDrawer}
+                />
+              </Route>
+              <Route path='/others'>
+                <OtherBookmarks
+                  data={state}
+                  dispatch={dispatch}
+                  openRightSideDrawer={openRightSideDrawer}
+                />
+              </Route>
+            </Switch>
           </Grid>
+
+          {/* Bookmark form */}
           <Hidden mdDown>
             <Grid item xs={12} lg={6}>
               <BookmarkForm
@@ -201,6 +226,8 @@ export default function Main() {
           </Hidden>
         </Grid>
       </main>
+
+      {/* Snackbar notification (Hidden by default) */}
       <Snackbar
         open={openSnackbar}
         autoHideDuration={2000}
