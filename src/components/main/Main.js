@@ -1,6 +1,8 @@
 import { useState, useEffect, useReducer } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import clsx from 'clsx'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
@@ -31,13 +33,30 @@ const useStyles = makeStyles(function (theme) {
       flexGrow: 1,
       padding: theme.spacing(3),
     },
-    contentAdjustment: {
+    spacer: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'flex-end',
       padding: theme.spacing(0, 1),
       // Necessary for content to be below app bar
       ...theme.mixins.toolbar,
+    },
+    contentGrid: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1319px 1fr',
+      gridTemplateRows: 'auto 1fr',
+    },
+    spacerGridPosition: {
+      gridColumn: '2/3',
+      gridRow: '1/2',
+    },
+    bookmarkContainer: {
+      gridColumn: '2/3',
+      gridRow: '2/3',
+    },
+    gridItems: {
+      display: 'grid',
+      gridTemplateColumns: '1fr auto 1fr',
     },
   }
 })
@@ -65,6 +84,12 @@ const initialBookmarkData = { name: '', link: '', category: '' }
 export default function Main() {
   // Get the styles data from 'useStyles'.
   const classes = useStyles()
+
+  // Get the 'Theme' data from 'useTheme'.
+  const theme = useTheme()
+
+  // Get the 'Media query' data from 'useMediaQuery'.
+  const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
 
   // Declare local state.
   const [open, setOpen] = useState(false)
@@ -160,11 +185,26 @@ export default function Main() {
       />
 
       {/* Bookmark list and bookmark form */}
-      <main className={classes.content}>
-        <div className={classes.contentAdjustment}></div>
-        <Grid container spacing={3}>
+      <main
+        className={clsx(classes.content, { [classes.contentGrid]: isLarge })}
+      >
+        <div
+          className={clsx(classes.spacer, {
+            [classes.spacerGridPosition]: isLarge,
+          })}
+        ></div>
+        <Grid
+          container
+          spacing={3}
+          className={clsx({ [classes.bookmarkContainer]: isLarge })}
+        >
           {/* Bookmark list */}
-          <Grid item xs={12} lg={6}>
+          <Grid
+            item
+            xs={12}
+            lg={6}
+            className={clsx({ [classes.gridItems]: !isLarge })}
+          >
             <Switch>
               <Route exact path='/'>
                 <Redirect to='/personal' />
