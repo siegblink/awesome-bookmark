@@ -1,4 +1,6 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import clsx from 'clsx'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
@@ -11,9 +13,13 @@ import Tooltip from '@material-ui/core/Tooltip'
 const useStyles = makeStyles(() => {
   return {
     root: {
+      maxWidth: 647.5,
       minWidth: 275,
       marginBottom: 24,
       display: 'flex',
+    },
+    gridPosition: {
+      gridColumn: '2/3',
     },
     details: {
       flex: 1,
@@ -37,8 +43,14 @@ export default function Bookmark(props) {
   const { bookmark, openEditDrawer, dispatch } = props
   const classes = useStyles()
 
+  // Get the 'Theme' data from 'useTheme'.
+  const theme = useTheme()
+
+  // Get the 'Media query' data from 'useMediaQuery'.
+  const isSmall = useMediaQuery(theme.breakpoints.up('sm'))
+
   return (
-    <Card className={classes.root}>
+    <Card className={clsx(classes.root, { [classes.gridPosition]: isSmall })}>
       <CardMedia
         className={classes.cover}
         image='dummy-img.png'
