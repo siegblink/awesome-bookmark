@@ -46,17 +46,21 @@ const useStyles = makeStyles(function (theme) {
       gridTemplateColumns: '1fr 1319px 1fr',
       gridTemplateRows: 'auto 1fr',
     },
+    adjustedContentGrid: {
+      gridTemplateColumns: '1fr auto 1fr',
+    },
     spacerGridPosition: {
       gridColumn: '2/3',
       gridRow: '1/2',
     },
     bookmarkContainer: {
+      minWidth: '1176px',
       gridColumn: '2/3',
       gridRow: '2/3',
     },
     gridItems: {
       display: 'grid',
-      gridTemplateColumns: '1fr auto 1fr',
+      gridTemplateColumns: '1fr 40.46875rem 1fr',
     },
   }
 })
@@ -90,6 +94,9 @@ export default function Main() {
 
   // Get the 'Media query' data from 'useMediaQuery'.
   const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
+
+  // Declare variable to check if the viewport is from a 'laptop' screen.
+  const isLapTopView = useMediaQuery('(max-width:1440px)')
 
   // Declare local state.
   const [open, setOpen] = useState(false)
@@ -186,7 +193,10 @@ export default function Main() {
 
       {/* Bookmark list and bookmark form */}
       <main
-        className={clsx(classes.content, { [classes.contentGrid]: isLarge })}
+        className={clsx(classes.content, {
+          [classes.contentGrid]: isLarge,
+          [classes.adjustedContentGrid]: open && isLapTopView,
+        })}
       >
         <div
           className={clsx(classes.spacer, {
