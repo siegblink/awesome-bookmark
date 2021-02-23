@@ -36,6 +36,13 @@ const useStyles = makeStyles(() => {
     cover: {
       minWidth: 151,
     },
+    bookmarkLink: {
+      display: 'inline-block',
+      maxWidth: '29.03125rem',
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+    },
   }
 })
 
@@ -59,7 +66,9 @@ export default function Bookmark(props) {
       <div className={classes.details}>
         <CardContent>
           <Typography variant='h5'>{bookmark.name}</Typography>
-          <Typography color='textSecondary'>{bookmark.link}</Typography>
+          <Typography color='textSecondary' className={classes.bookmarkLink}>
+            {bookmark.link}
+          </Typography>
         </CardContent>
         <CardActions className={classes.cardActions}>
           <Tooltip title='Open link in a new tab' placement='right' arrow>
