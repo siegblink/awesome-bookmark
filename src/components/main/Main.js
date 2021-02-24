@@ -21,6 +21,7 @@ import LibraryBookmarks from '../bookmarks/LibraryBookmarks'
 import ToolBookmarks from '../bookmarks/ToolBookmarks'
 import OtherBookmarks from '../bookmarks/OtherBookmarks'
 import dummyData from '../../db'
+import { BookmarkProvider } from '../../context/'
 
 /** The 'useStyles' variable houses all the CSS styles that will be used by the main component. */
 const useStyles = makeStyles(function (theme) {
@@ -215,53 +216,38 @@ export default function Main() {
             lg={6}
             className={clsx({ [classes.gridItems]: !isLarge })}
           >
-            <Switch>
-              <Route exact path='/'>
-                <Redirect to='/personal' />
-              </Route>
-              <Route path='/personal'>
-                <PersonalBookmarks
-                  data={state}
-                  dispatch={dispatch}
-                  openRightSideDrawer={openRightSideDrawer}
-                />
-              </Route>
-              <Route path='/github'>
-                <GithubBookmarks
-                  data={state}
-                  dispatch={dispatch}
-                  openRightSideDrawer={openRightSideDrawer}
-                />
-              </Route>
-              <Route path='/important'>
-                <ImportantBookmarks
-                  data={state}
-                  dispatch={dispatch}
-                  openRightSideDrawer={openRightSideDrawer}
-                />
-              </Route>
-              <Route path='/libraries'>
-                <LibraryBookmarks
-                  data={state}
-                  dispatch={dispatch}
-                  openRightSideDrawer={openRightSideDrawer}
-                />
-              </Route>
-              <Route path='/tools'>
-                <ToolBookmarks
-                  data={state}
-                  dispatch={dispatch}
-                  openRightSideDrawer={openRightSideDrawer}
-                />
-              </Route>
-              <Route path='/others'>
-                <OtherBookmarks
-                  data={state}
-                  dispatch={dispatch}
-                  openRightSideDrawer={openRightSideDrawer}
-                />
-              </Route>
-            </Switch>
+            <BookmarkProvider
+              value={{
+                isSidebarOpen: open,
+                bookmarks: state,
+                dispatch: dispatch,
+                openRightSideDrawer: openRightSideDrawer,
+              }}
+            >
+              <Switch>
+                <Route exact path='/'>
+                  <Redirect to='/personal' />
+                </Route>
+                <Route path='/personal'>
+                  <PersonalBookmarks />
+                </Route>
+                <Route path='/github'>
+                  <GithubBookmarks />
+                </Route>
+                <Route path='/important'>
+                  <ImportantBookmarks />
+                </Route>
+                <Route path='/libraries'>
+                  <LibraryBookmarks />
+                </Route>
+                <Route path='/tools'>
+                  <ToolBookmarks />
+                </Route>
+                <Route path='/others'>
+                  <OtherBookmarks />
+                </Route>
+              </Switch>
+            </BookmarkProvider>
           </Grid>
 
           {/* Bookmark form */}
