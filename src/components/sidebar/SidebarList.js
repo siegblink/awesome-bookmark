@@ -15,6 +15,8 @@ import Divider from '@material-ui/core/Divider'
 import Tooltip from '@material-ui/core/Tooltip'
 import SidebarListItem from './SidebarListItem'
 import BookmarkGroupDialog from '../dialog/BookmarkGroupDialog'
+import Spacer from '../utils/Spacer'
+import { Footer } from '../footer'
 
 const useStyles = makeStyles(function (theme) {
   return {
@@ -50,6 +52,7 @@ export default function SidebarList(props) {
 
   return (
     <Fragment>
+      {/* Main bookmark list items */}
       <List>
         {sidebarItems.map(function (sidebarItem, index) {
           return (
@@ -62,6 +65,8 @@ export default function SidebarList(props) {
         })}
       </List>
       <Divider />
+
+      {/* Add new group list item */}
       <List>
         <ListItem button onClick={openDialog} className={classes.listItem}>
           <ListItemIcon>
@@ -76,6 +81,18 @@ export default function SidebarList(props) {
           <ListItemText primary={'Add category'} />
         </ListItem>
       </List>
+      <Divider />
+      <Spacer />
+
+      {/* Footer */}
+      <Divider />
+      {props.isSidebarOpen ? (
+        <List>
+          <Footer />
+        </List>
+      ) : null}
+
+      {/* Add new 'bookmark group' dialog */}
       <BookmarkGroupDialog
         isDialogOpen={isDialogOpen}
         closeDialog={closeDialog}
