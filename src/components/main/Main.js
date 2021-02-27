@@ -21,7 +21,8 @@ import LibraryBookmarks from '../bookmarks/LibraryBookmarks'
 import ToolBookmarks from '../bookmarks/ToolBookmarks'
 import OtherBookmarks from '../bookmarks/OtherBookmarks'
 import dummyData from '../../db'
-import { BookmarkProvider } from '../../context/'
+import { BookmarkProvider } from '../../context'
+import { bookmarkReducer } from '../../reducers'
 
 /** The 'useStyles' variable houses all the CSS styles that will be used by the main component. */
 const useStyles = makeStyles(function (theme) {
@@ -66,22 +67,6 @@ const useStyles = makeStyles(function (theme) {
   }
 })
 
-/**
- * This is a 'Reducer' function that will do all of the state transformation and manipulation.
- * @param state {object} - This is the accumulated data object used by all the connected components.
- * @param action {object} - This is the object that represents the kind of transformation will be done to the state.
- */
-function bookmarkReducer(state, action) {
-  switch (action.type) {
-    case 'SET_BOOKMARKS':
-      return [...state, action.payload]
-    case 'DELETE_BOOKMARK':
-      return state.filter((bookmark) => bookmark.name !== action.payload.name)
-    default:
-      throw new Error('Invalid action')
-  }
-}
-
 /** Declare 'Initial bookmark' data. */
 const initialBookmarkData = { name: '', link: '', category: '' }
 
@@ -108,12 +93,18 @@ export default function Main() {
   const [currentBookmarkCategory, setCurrentBookmarkCategory] = useState('')
   const [state, dispatch] = useReducer(bookmarkReducer, dummyData)
   const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [pathname, setPathname] = useState('personal')
 
   /** Declare side effect that sets the 'Current bookmark category' state. */
   useEffect(function () {
-    const firstBookmarkEntry = dummyData[0]
+    const firstBookmarkEntry = dummyData['personal']
     setCurrentBookmarkCategory(firstBookmarkEntry.category)
   }, [])
+
+  /** Event handler for setting the 'pathname' local state. */
+  function updatePathname(pathname) {
+    setPathname(pathname)
+  }
 
   /** Event handler for opening the 'Drawer' (Left sidebar) component. */
   function openDrawer() {
@@ -169,7 +160,7 @@ export default function Main() {
       <CssBaseline />
 
       {/* Header */}
-      <Header open={open} handleDrawerOpen={openDrawer}>
+      <Header open={open} pathname={pathname} handleDrawerOpen={openDrawer}>
         <Hidden lgUp>
           <AddBookmarkButton />
         </Hidden>
@@ -214,7 +205,9 @@ export default function Main() {
             item
             xs={12}
             lg={6}
-            className={clsx({ [classes.gridItems]: !isLarge })}
+            className={clsx({
+              [classes.gridItems]: !isLarge && state[pathname].length,
+            })}
           >
             <BookmarkProvider
               value={{
@@ -222,6 +215,7 @@ export default function Main() {
                 bookmarks: state,
                 dispatch: dispatch,
                 openRightSideDrawer: openRightSideDrawer,
+                updatePathname: updatePathname,
               }}
             >
               <Switch>
