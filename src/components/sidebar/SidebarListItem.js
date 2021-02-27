@@ -8,9 +8,10 @@ import Tooltip from '@material-ui/core/Tooltip'
 const useStyles = makeStyles(function (theme) {
   return {
     listItem: {
-      paddingLeft: 16,
+      paddingLeft: '1rem',
       [theme.breakpoints.up('sm')]: {
-        paddingLeft: 24,
+        paddingLeft: '1.5rem',
+        paddingRight: '1.5rem',
       },
     },
     listItemText: {
