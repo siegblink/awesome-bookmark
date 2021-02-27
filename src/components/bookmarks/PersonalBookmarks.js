@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useEffect, useContext } from 'react'
 import { BookmarkContext } from '../../context/'
 import EmptyBookmark from './EmptyBookmark'
 import Bookmark from '../content/Bookmark'
@@ -7,12 +7,17 @@ import Bookmark from '../content/Bookmark'
 export default function PersonalBookmarks(props) {
   // Get the 'Bookmark' context data.
   const context = useContext(BookmarkContext)
-  const { bookmarks, dispatch, openRightSideDrawer } = context
+  const { bookmarks, dispatch, openRightSideDrawer, updatePathname } = context
 
-  return !bookmarks?.length ? (
+  // Execute side effect when browser mounts this component.
+  useEffect(() => {
+    updatePathname('personal')
+  }, [updatePathname])
+
+  return !bookmarks['personal'].length ? (
     <EmptyBookmark />
   ) : (
-    bookmarks.map((bookmark) => {
+    bookmarks['personal'].map((bookmark) => {
       return (
         <Bookmark
           key={bookmark.name}
