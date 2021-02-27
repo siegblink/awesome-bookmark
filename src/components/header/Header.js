@@ -87,7 +87,7 @@ const useStyles = makeStyles(function (theme) {
 })
 
 export default function Header(props) {
-  const { open, handleDrawerOpen } = props
+  const { open, pathname, handleDrawerOpen } = props
   const classes = useStyles()
 
   return (
@@ -110,7 +110,9 @@ export default function Header(props) {
         <Typography variant='h6' noWrap className={classes.headerTitle}>
           Awesome Bookmark
           <ChevronRightIcon className={classes.currentBookmark} />
-          <span className={classes.currentBookmark}>Personal</span>
+          <span className={classes.currentBookmark}>
+            {`${pathname.slice(0, 1).toUpperCase()}${pathname.slice(1)}`}
+          </span>
         </Typography>
         <SearchInputField />
         {props.children}
