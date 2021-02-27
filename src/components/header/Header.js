@@ -1,5 +1,6 @@
 import clsx from 'clsx'
-import { makeStyles, fade } from '@material-ui/core/styles'
+import { makeStyles, fade, useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import AppBar from '@material-ui/core/AppBar'
 import ToolBar from '@material-ui/core/ToolBar'
 import IconButton from '@material-ui/core/IconButton'
@@ -90,10 +91,18 @@ export default function Header(props) {
   const { open, pathname, handleDrawerOpen } = props
   const classes = useStyles()
 
+  // Get the 'Theme' data from 'useTheme'.
+  const theme = useTheme()
+
+  // Get the 'Media query' data from 'useMediaQuery'.
+  const isExtraSmall = useMediaQuery(theme.breakpoints.down('sm'))
+
   return (
     <AppBar
       position='fixed'
-      className={clsx(classes.appBar, { [classes.appBarShift]: open })}
+      className={clsx(classes.appBar, {
+        [classes.appBarShift]: open && !isExtraSmall,
+      })}
     >
       <ToolBar>
         <IconButton
@@ -101,7 +110,10 @@ export default function Header(props) {
           color='inherit'
           edge='start'
           onClick={handleDrawerOpen}
-          className={clsx(classes.menuButton, open && classes.hide)}
+          className={clsx(
+            classes.menuButton,
+            open && !isExtraSmall && classes.hide
+          )}
         >
           <Tooltip title='Open menu' placement='right' arrow>
             <MenuIcon />
