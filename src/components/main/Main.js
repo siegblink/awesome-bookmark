@@ -10,6 +10,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
 import SidebarList from '../sidebar/SidebarList'
+import LeftSideDrawer from '../sidebar/LeftSideDrawer'
 import RightSideDrawer from '../sidebar/RightSideDrawer'
 import AddBookmarkButton from '../header/AddBookmarkButton'
 import BookmarkForm from '../form/BookmarkForm'
@@ -35,6 +36,9 @@ const useStyles = makeStyles(function (theme) {
       flexGrow: 1,
       padding: theme.spacing(3),
     },
+    adjustedContentWidth: {
+      width: 'calc(100% - 80px)',
+    },
     spacer: {
       display: 'flex',
       alignItems: 'center',
@@ -48,9 +52,6 @@ const useStyles = makeStyles(function (theme) {
       gridTemplateColumns: '1fr 1319px 1fr',
       gridTemplateRows: 'auto 1fr',
     },
-    adjustedContentGrid: {
-      gridTemplateColumns: '1fr auto 1fr',
-    },
     spacerGridPosition: {
       gridColumn: '2/3',
       gridRow: '1/2',
@@ -62,7 +63,7 @@ const useStyles = makeStyles(function (theme) {
     },
     gridItems: {
       display: 'grid',
-      gridTemplateColumns: '1fr 40.46875rem 1fr',
+      justifyContent: 'center',
     },
   }
 })
@@ -79,10 +80,12 @@ export default function Main() {
   const theme = useTheme()
 
   // Get the 'Media query' data from 'useMediaQuery'.
-  const isLarge = useMediaQuery(theme.breakpoints.up('lg'))
+  const isExtraSmall = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMedium = useMediaQuery(theme.breakpoints.down('md'))
+  const isExtraLarge = useMediaQuery(theme.breakpoints.up('lg'))
 
   // Declare variable to check if the viewport is from a 'laptop' screen.
-  const isLapTopView = useMediaQuery('(max-width:1440px)')
+  // const isLapTopView = useMediaQuery('(max-width:1440px)')
 
   // Declare local state.
   const [open, setOpen] = useState(false)
@@ -167,9 +170,15 @@ export default function Main() {
       </Header>
 
       {/* Left sidebar */}
-      <Sidebar open={open} handleDrawerClose={closeDrawer}>
-        <SidebarList isSidebarOpen={open} />
-      </Sidebar>
+      {!isExtraSmall ? (
+        <Sidebar open={open} handleDrawerClose={closeDrawer}>
+          <SidebarList isSidebarOpen={open} />
+        </Sidebar>
+      ) : (
+        <LeftSideDrawer open={open} closeDrawer={closeDrawer}>
+          <SidebarList isSidebarOpen={open} />
+        </LeftSideDrawer>
+      )}
 
       {/* Right sidebar (Hidden by default) */}
       <RightSideDrawer
@@ -186,19 +195,19 @@ export default function Main() {
       {/* Bookmark list and bookmark form */}
       <main
         className={clsx(classes.content, {
-          [classes.contentGrid]: isLarge,
-          [classes.adjustedContentGrid]: open && isLapTopView,
+          [classes.contentGrid]: isExtraLarge,
+          [classes.adjustedContentWidth]: isExtraSmall,
         })}
       >
         <div
           className={clsx(classes.spacer, {
-            [classes.spacerGridPosition]: isLarge,
+            [classes.spacerGridPosition]: isExtraLarge,
           })}
         ></div>
         <Grid
           container
           spacing={3}
-          className={clsx({ [classes.bookmarkContainer]: isLarge })}
+          className={clsx({ [classes.bookmarkContainer]: isExtraLarge })}
         >
           {/* Bookmark list */}
           <Grid
@@ -206,7 +215,7 @@ export default function Main() {
             xs={12}
             lg={6}
             className={clsx({
-              [classes.gridItems]: !isLarge && state[pathname].length,
+              [classes.gridItems]: isMedium && state[pathname].length,
             })}
           >
             <BookmarkProvider
