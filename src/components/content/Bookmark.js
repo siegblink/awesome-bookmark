@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+// import { useContext } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import clsx from 'clsx'
@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import MoreOptionsButton from './MoreOptionsButton'
 import Tooltip from '@material-ui/core/Tooltip'
-import { BookmarkContext } from '../../context/'
+// import { BookmarkContext } from '../../context/'
 
 const useStyles = makeStyles(() => {
   return {
@@ -45,9 +45,9 @@ const useStyles = makeStyles(() => {
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
     },
-    adjustedLinkMaxWidth: {
-      maxWidth: '23.125rem',
-    },
+    // adjustedLinkMaxWidth: {
+    //   maxWidth: '23.125rem',
+    // },
   }
 })
 
@@ -56,19 +56,24 @@ export default function Bookmark(props) {
   const classes = useStyles()
 
   // Get the 'Bookmark' context data.
-  const { isSidebarOpen } = useContext(BookmarkContext)
+  // const { isSidebarOpen } = useContext(BookmarkContext)
 
   // Get the 'Theme' data from 'useTheme'.
   const theme = useTheme()
 
   // Get the 'Media query' data from 'useMediaQuery'.
+  const isExtraSmall = useMediaQuery(theme.breakpoints.down('sm'))
   const isSmall = useMediaQuery(theme.breakpoints.up('sm'))
 
   // Declare variable to check if the viewport is from a 'laptop' screen.
-  const isLapTopView = useMediaQuery('(max-width:1440px)')
+  // const isLapTopView = useMediaQuery('(max-width:1440px)')
 
   return (
-    <Card className={clsx(classes.root, { [classes.gridPosition]: isSmall })}>
+    <Card
+      className={clsx(classes.root, {
+        [classes.gridPosition]: isSmall && !isExtraSmall,
+      })}
+    >
       <CardMedia
         className={classes.cover}
         image='dummy-img.png'
@@ -79,9 +84,7 @@ export default function Bookmark(props) {
           <Typography variant='h5'>{bookmark.name}</Typography>
           <Typography
             color='textSecondary'
-            className={clsx(classes.bookmarkLink, {
-              [classes.adjustedLinkMaxWidth]: isLapTopView && isSidebarOpen,
-            })}
+            className={clsx(classes.bookmarkLink)}
           >
             {bookmark.link}
           </Typography>
