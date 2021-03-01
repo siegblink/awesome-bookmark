@@ -13,6 +13,7 @@ import SidebarList from '../sidebar/SidebarList'
 import LeftSideDrawer from '../sidebar/LeftSideDrawer'
 import RightSideDrawer from '../sidebar/RightSideDrawer'
 import AddBookmarkButton from '../header/AddBookmarkButton'
+import SearchButton from '../header/SearchButton'
 import BookmarkForm from '../form/BookmarkForm'
 import Alert from '../form/Alert'
 import PersonalBookmarks from '../bookmarks/PersonalBookmarks'
@@ -164,6 +165,9 @@ export default function Main() {
 
       {/* Header */}
       <Header open={open} pathname={pathname} handleDrawerOpen={openDrawer}>
+        <Hidden mdUp>
+          <SearchButton />
+        </Hidden>
         <Hidden lgUp>
           <AddBookmarkButton />
         </Hidden>
