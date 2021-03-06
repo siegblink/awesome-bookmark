@@ -164,7 +164,7 @@ export default function Main() {
       <CssBaseline />
 
       {/* Header */}
-      <Header open={open} pathname={pathname} handleDrawerOpen={openDrawer}>
+      <Header pathname={pathname} openDrawer={openDrawer}>
         <Hidden mdUp>
           <SearchButton />
         </Hidden>
@@ -173,18 +173,19 @@ export default function Main() {
         </Hidden>
       </Header>
 
-      {/* Left sidebar */}
+      {/* Left sidebar (Will be hidden when the viewport gets smaller) */}
       {!isExtraSmall ? (
-        <Sidebar open={open} handleDrawerClose={closeDrawer}>
-          <SidebarList isSidebarOpen={open} />
+        <Sidebar>
+          <SidebarList />
         </Sidebar>
-      ) : (
-        <LeftSideDrawer open={open} closeDrawer={closeDrawer}>
-          <SidebarList isSidebarOpen={open} />
-        </LeftSideDrawer>
-      )}
+      ) : null}
 
-      {/* Right sidebar (Hidden by default) */}
+      {/* Left side 'Drawer' (Hidden by default) */}
+      <LeftSideDrawer open={open} closeDrawer={closeDrawer}>
+        <SidebarList isSidebarOpen={open} />
+      </LeftSideDrawer>
+
+      {/* Right side 'Drawer' (Hidden by default) */}
       <RightSideDrawer
         open={openEditDrawer}
         closeDrawer={closeRightSideDrawer}
