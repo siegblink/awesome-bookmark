@@ -40,15 +40,15 @@ export default function BookmarkForm(props) {
   const [category, setCategory] = useState('')
   const { setBookmarks } = props
 
-  function handleNameChange(event) {
+  function changeName(event) {
     setName(event.target.value)
   }
 
-  function handleLinkChange(event) {
+  function changeLink(event) {
     setLink(event.target.value)
   }
 
-  function handleCategoryChange(event) {
+  function changeCategory(event) {
     setCategory(event.target.value)
   }
 
@@ -61,10 +61,15 @@ export default function BookmarkForm(props) {
       return
     }
 
+    console.log('Name is set to', name)
+    console.log('Link is set to', link)
+    console.log('Category is set to', category)
+
     setBookmarks({ type: 'SET_BOOKMARKS', payload: { name, link, category } })
     setName('')
     setLink('')
     setCategory('')
+
     props.setOpenSnackbar(true)
   }
 
@@ -87,7 +92,7 @@ export default function BookmarkForm(props) {
           <FilledInput
             id='bookmark-name'
             value={name}
-            onChange={handleNameChange}
+            onChange={changeName}
           />
         </FormControl>
         <FormControl fullWidth variant='filled' className={classes.margin}>
@@ -95,12 +100,12 @@ export default function BookmarkForm(props) {
           <FilledInput
             id='bookmark-link'
             value={link}
-            onChange={handleLinkChange}
+            onChange={changeLink}
           />
         </FormControl>
         <CustomSelect
           category={category}
-          setCategory={handleCategoryChange}
+          setCategory={changeCategory}
         />
       </div>
       <div className={classes.buttonGroup}>
