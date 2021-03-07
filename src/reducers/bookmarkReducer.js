@@ -5,11 +5,44 @@
  */
 export default function bookmarkReducer(state, action) {
   switch (action.type) {
-    case 'SET_BOOKMARKS':
-      return [...state, action.payload]
+    case 'SET_BOOKMARKS': {
+      // Parse the bookmark category from the payload.
+      const parsedCategory = action.payload.category.toLowerCase()
+
+      // Create a new piece of bookmark data.
+      const newBookmarkData = createBookmarkData(action.payload)
+
+      // Update the bookmark group data.
+      const updatedBookmarkGroup = updateBookmarkGroup(
+        state[parsedCategory],
+        newBookmarkData
+      )
+      return { ...state, [parsedCategory]: updatedBookmarkGroup }
+    }
+
     case 'DELETE_BOOKMARK':
       return state.filter((bookmark) => bookmark.name !== action.payload.name)
+
     default:
       throw new Error('Invalid action')
   }
+}
+
+/**
+ * This is a function that will set a piece of 'Bookmark data'.
+ * @param {object} data - This is the 'payload' data.
+ * @returns {object}
+ */
+function createBookmarkData(data) {
+  const bookmarkTemplate = { name: '', link: '', category: '' }
+  return { ...bookmarkTemplate, ...data }
+}
+
+/**
+ * This is a function that will set the 'Bookmark group' data.
+ * @param {array} existingData - This is the existing 'Bookmark group' data.
+ * @param {object} newData - This is the new bookmark data that will be inserted in the existing data.
+ */
+function updateBookmarkGroup(existingData, newData) {
+  return [...existingData, newData]
 }
