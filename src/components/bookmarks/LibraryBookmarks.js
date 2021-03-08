@@ -1,6 +1,7 @@
 import { useEffect, useContext } from 'react'
 import { BookmarkContext } from '../../context/'
 import EmptyBookmark from './EmptyBookmark'
+import Bookmark from '../content/Bookmark'
 
 /** This is a component for displaying all 'Important' related bookmarks. */
 export default function LibraryBookmarks(props) {
@@ -13,5 +14,18 @@ export default function LibraryBookmarks(props) {
     updatePathname('libraries')
   }, [updatePathname])
 
-  return <EmptyBookmark />
+  return !bookmarks['libraries'].length ? (
+    <EmptyBookmark />
+  ) : (
+    bookmarks['libraries'].map((bookmark) => {
+      return (
+        <Bookmark
+          key={bookmark.name}
+          bookmark={bookmark}
+          openEditDrawer={openRightSideDrawer}
+          dispatch={dispatch}
+        />
+      )
+    })
+  )
 }
