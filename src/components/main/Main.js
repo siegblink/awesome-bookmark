@@ -16,12 +16,7 @@ import AddBookmarkButton from '../header/AddBookmarkButton'
 import SearchButton from '../header/SearchButton'
 import BookmarkForm from '../form/BookmarkForm'
 import Alert from '../form/Alert'
-import PersonalBookmarks from '../bookmarks/PersonalBookmarks'
-import GithubBookmarks from '../bookmarks/GithubBookmarks'
-import ImportantBookmarks from '../bookmarks/ImportantBookmarks'
-import LibraryBookmarks from '../bookmarks/LibraryBookmarks'
-import ToolBookmarks from '../bookmarks/ToolBookmarks'
-import OtherBookmarks from '../bookmarks/OtherBookmarks'
+import BookmarkList from '../bookmarks/BookmarkList'
 import dummyData from '../../db'
 import { BookmarkProvider } from '../../context'
 import { bookmarkReducer } from '../../reducers'
@@ -233,27 +228,19 @@ export default function Main() {
               }}
             >
               <Switch>
+                {/* Default route */}
                 <Route exact path='/'>
                   <Redirect to='/personal' />
                 </Route>
-                <Route path='/personal'>
-                  <PersonalBookmarks />
-                </Route>
-                <Route path='/github'>
-                  <GithubBookmarks />
-                </Route>
-                <Route path='/important'>
-                  <ImportantBookmarks />
-                </Route>
-                <Route path='/libraries'>
-                  <LibraryBookmarks />
-                </Route>
-                <Route path='/tools'>
-                  <ToolBookmarks />
-                </Route>
-                <Route path='/others'>
-                  <OtherBookmarks />
-                </Route>
+
+                {/* Render individual routes based on state data's key names */}
+                {Object.keys(state).map((groupName, index) => {
+                  return (
+                    <Route key={index} path={`/${groupName}`}>
+                      <BookmarkList bookmarkGroup={groupName} />
+                    </Route>
+                  )
+                })}
               </Switch>
             </BookmarkProvider>
           </Grid>
