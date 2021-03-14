@@ -19,10 +19,10 @@ export default function BookmarkList(props) {
   return !bookmarks[bookmarkGroup].length ? (
     <EmptyBookmark />
   ) : (
-    bookmarks[bookmarkGroup].map((bookmark) => {
+    bookmarks[bookmarkGroup].map((bookmark, index) => {
       return (
         <Bookmark
-          key={bookmark.name}
+          key={index}
           bookmark={bookmark}
           openEditDrawer={openRightSideDrawer}
           dispatch={dispatch}
