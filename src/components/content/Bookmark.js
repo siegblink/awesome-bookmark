@@ -102,8 +102,7 @@ export default function Bookmark(props) {
           </Tooltip>
           <MoreOptionsButton
             openEditDrawer={openEditDrawer}
-            currentBookmarkName={bookmark.name}
-            currentBookmarkLink={bookmark.link}
+            bookmarkData={bookmark}
             dispatch={dispatch}
           />
         </CardActions>
