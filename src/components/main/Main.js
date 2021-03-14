@@ -100,7 +100,10 @@ export default function Main() {
     setCurrentBookmarkCategory(firstBookmarkEntry.category)
   }, [])
 
-  /** Event handler for setting the 'pathname' local state. */
+  /**
+   * Event handler for setting the 'pathname' local state.
+   * @param {string} pathname - The 'pathname' based on the window 'location' object.
+   */
   function updatePathname(pathname) {
     setPathname(pathname)
   }
@@ -115,10 +118,14 @@ export default function Main() {
     setOpen(false)
   }
 
-  /** Event handler for opening the 'Right-side drawer' component. */
-  function openRightSideDrawer(bookmarkName, bookmarkLink) {
-    setCurrentBookmarkName(bookmarkName)
-    setCurrentBookmarkLink(bookmarkLink)
+  /**
+   * Event handler for opening the 'Right-side drawer' component.
+   * @param {object} bookmark - The existing bookmark data.
+   */
+  function openRightSideDrawer({ name, link, category }) {
+    setCurrentBookmarkName(name)
+    setCurrentBookmarkLink(link)
+    setCurrentBookmarkCategory(category)
     setOpenEditDrawer(true)
   }
 
@@ -127,7 +134,10 @@ export default function Main() {
     setOpenEditDrawer(false)
   }
 
-  /** Event handler for saving an edited bookmark. */
+  /**
+   * Event handler for saving an edited bookmark.
+   * @param {object} event - The event object provided by the browser API.
+   */
   function saveEditedBookmark(event) {
     const { name, value } = event.target
     setEditedBookmark(function (previouBookmarkData) {
@@ -138,11 +148,33 @@ export default function Main() {
     })
   }
 
-  /** Event handler for submitting bookmark data. */
-  function submitEditedBookmark(event) {
-    event.preventDefault()
-    console.log(editedBookmark)
-    closeRightSideDrawer()
+  /**
+   * Event handler for submitting bookmark data.
+   * @param {object} previousBookmarkData - The previous bookmark data.
+   */
+  function submitEditedBookmark(previousBookmarkData) {
+    return (event) => {
+      event.preventDefault()
+      const { name, link } = previousBookmarkData
+
+      // Check if the previous bookmark data exist in the 'Bookmark' local state.
+      const existingData = state[pathname].find((data) => {
+        return data.name === name && data.link === link
+      })
+
+      if (Object.entries(existingData).length) {
+        console.log('Existing bookmark data', existingData)
+      }
+
+      dispatch({
+        type: 'EDIT_BOOKMARK',
+        payload: { oldData: existingData, newData: editedBookmark },
+      })
+
+      console.log('New bookmark data', editedBookmark)
+      setEditedBookmark({ name: '', link: '' })
+      closeRightSideDrawer()
+    }
   }
 
   /** Event handler for closing 'Snackbar' component. */
@@ -183,6 +215,7 @@ export default function Main() {
       {/* Right side 'Drawer' (Hidden by default) */}
       <RightSideDrawer
         open={openEditDrawer}
+        pathname={pathname}
         closeDrawer={closeRightSideDrawer}
         editedBookmark={editedBookmark}
         setEditedBookmark={saveEditedBookmark}
