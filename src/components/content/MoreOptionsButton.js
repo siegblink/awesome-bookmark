@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -9,8 +9,7 @@ const ITEM_HEIGHT = 48
 
 export default function MoreOptionsButton(props) {
   const [anchorEl, setAnchorEl] = useState(null)
-  const { currentBookmarkName, currentBookmarkLink } = props
-  const { openEditDrawer, dispatch } = props
+  const { bookmarkData, openEditDrawer, dispatch } = props
   const open = Boolean(anchorEl)
 
   function handleClick(event) {
@@ -22,15 +21,15 @@ export default function MoreOptionsButton(props) {
   }
 
   function handleOpenEditDrawer() {
-    openEditDrawer(currentBookmarkName, currentBookmarkLink)
+    openEditDrawer(bookmarkData)
     setAnchorEl(null)
   }
 
-  function removeBookmark(currentBookmarkName) {
+  function removeBookmark(bookmark) {
     return () => {
       dispatch({
         type: 'DELETE_BOOKMARK',
-        payload: { name: currentBookmarkName },
+        payload: { name: bookmark.name },
       })
       handleClose()
     }
@@ -61,9 +60,7 @@ export default function MoreOptionsButton(props) {
         keepMounted
       >
         <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
-        <MenuItem onClick={removeBookmark(currentBookmarkName)}>
-          Delete
-        </MenuItem>
+        <MenuItem onClick={removeBookmark(bookmarkData)}>Delete</MenuItem>
       </Menu>
     </div>
   )
