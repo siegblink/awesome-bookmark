@@ -30,8 +30,8 @@ export default function RightSideDrawer(props) {
   const { open, closeDrawer, editedBookmark } = props
   const { setEditedBookmark, currentBookmarkName } = props
   const { currentBookmarkLink, currentBookmarkCategory } = props
-  const { submitEditedBookmark } = props
-  const { name, link, category } = editedBookmark
+  const { submitEditedBookmark, pathname } = props
+  const { name, link } = editedBookmark
 
   return (
     <div>
@@ -41,7 +41,14 @@ export default function RightSideDrawer(props) {
             Edit bookmark
           </Typography>
 
-          <form className={classes.form}>
+          <form
+            onSubmit={submitEditedBookmark({
+              name: currentBookmarkName,
+              link: currentBookmarkLink,
+              category: currentBookmarkCategory,
+            })}
+            className={classes.form}
+          >
             <FormControl fullWidth variant='filled'>
               <InputLabel htmlFor='bookmark-name'>Name</InputLabel>
               <FilledInput
@@ -64,8 +71,10 @@ export default function RightSideDrawer(props) {
 
             <CustomSelect
               name='category'
-              category={category}
-              setCategory={setEditedBookmark}
+              category={`${pathname.slice(0, 1).toUpperCase()}${pathname
+                .slice(1)
+                .toLowerCase()}`}
+              disabled
             />
 
             <Button
@@ -73,7 +82,11 @@ export default function RightSideDrawer(props) {
               variant='contained'
               size='large'
               type='submit'
-              onClick={submitEditedBookmark}
+              onClick={submitEditedBookmark({
+                name: currentBookmarkName,
+                link: currentBookmarkLink,
+                category: currentBookmarkCategory,
+              })}
             >
               Save edits
             </Button>
@@ -81,8 +94,8 @@ export default function RightSideDrawer(props) {
             <Button
               variant='outlined'
               size='large'
-              type='submit'
-              onClick={submitEditedBookmark}
+              type='button'
+              onClick={() => {}}
             >
               Cancel
             </Button>
