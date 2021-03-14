@@ -3,17 +3,17 @@ const dummyData = {
     {
       name: 'github-octodex',
       link: 'https://octodex.github.com',
-      category: 'Github',
+      category: 'Personal',
     },
     {
       name: 'mastering-markdown-github-guide',
       link: 'https://guides.github.com/features/mastering-markdown/',
-      category: 'Github',
+      category: 'Personal',
     },
     {
       name: 'github-high-scores',
       link: 'https://leereilly.net/github-high-scores/',
-      category: 'Github',
+      category: 'Personal',
     },
   ],
   github: [],
