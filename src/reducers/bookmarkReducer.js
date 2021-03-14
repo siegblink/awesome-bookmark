@@ -20,6 +20,27 @@ export default function bookmarkReducer(state, action) {
       return { ...state, [parsedCategory]: updatedBookmarkGroup }
     }
 
+    case 'EDIT_BOOKMARK': {
+      // Get access to the payload data.
+      const { oldData, newData } = action.payload
+
+      // Replace the existing bookmark data.
+      const updatedBookmarkData = state[oldData.category.toLowerCase()].map(
+        (bookmark) => {
+          // When the existing bookmark data finds a match, begin the update process.
+          if (bookmark.name === oldData.name) {
+            return { ...bookmark, name: newData.name, link: newData.link }
+          }
+
+          // Otherwise, return the existing bookmark data.
+          return bookmark
+        }
+      )
+
+      // Return the updated state.
+      return { ...state, [oldData.category.toLowerCase()]: updatedBookmarkData }
+    }
+
     case 'DELETE_BOOKMARK':
       return state.filter((bookmark) => bookmark.name !== action.payload.name)
 
