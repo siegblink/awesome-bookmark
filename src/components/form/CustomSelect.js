@@ -53,6 +53,7 @@ export default function CustomSelect(props) {
         onChange={props.setCategory}
         onClose={handleClose}
         onOpen={handleOpen}
+        disabled={props.disabled}
       >
         {tabNames.map((tabName) => {
           return (
