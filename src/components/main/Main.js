@@ -154,25 +154,47 @@ export default function Main() {
    */
   function submitEditedBookmark(previousBookmarkData) {
     return (event) => {
+      // Prevent the browser from the doing a full page refresh.
       event.preventDefault()
+
+      // Destructure 'name' and 'link' object properties from 'previousBookmarkData'.
       const { name, link } = previousBookmarkData
+
+      // Check if the 'Edited bookmark' local state is not empty.
+      if (!editedBookmark.name || !editedBookmark.link) {
+        console.error('You passed an empty or blank data.')
+
+        // Reset the values of 'Edited bookmark' local state.
+        setEditedBookmark({ name: '', link: '' })
+        // Close the 'Drawer' component.
+        closeRightSideDrawer()
+
+        // Return early since 'Edited bookmark' local state is empty.
+        return
+      }
 
       // Check if the previous bookmark data exist in the 'Bookmark' local state.
       const existingData = state[pathname].find((data) => {
         return data.name === name && data.link === link
       })
 
-      if (Object.entries(existingData).length) {
-        console.log('Existing bookmark data', existingData)
-      }
+      // Only enable the code below during debugging.
+      // if (Object.entries(existingData).length) {
+      //   console.log('Existing bookmark data', existingData)
+      // }
 
+      // Execute the 'Bookmark data' update process.
       dispatch({
         type: 'EDIT_BOOKMARK',
         payload: { oldData: existingData, newData: editedBookmark },
       })
 
-      console.log('New bookmark data', editedBookmark)
+      // Only enable the code below during debuggin.
+      // console.log('New bookmark data', editedBookmark)
+
+      // Reset the values of 'Edited bookmark' local state.
       setEditedBookmark({ name: '', link: '' })
+      // Close the 'Drawer' component.
       closeRightSideDrawer()
     }
   }
