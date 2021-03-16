@@ -92,6 +92,7 @@ export default function Main() {
   const [currentBookmarkCategory, setCurrentBookmarkCategory] = useState('')
   const [state, dispatch] = useReducer(bookmarkReducer, dummyData)
   const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [errorSnackbar, setErrorSnackbar] = useState(false)
   const [pathname, setPathname] = useState('personal')
 
   /** Declare side effect that sets the 'Current bookmark category' state. */
@@ -168,6 +169,8 @@ export default function Main() {
         setEditedBookmark({ name: '', link: '' })
         // Close the 'Drawer' component.
         closeRightSideDrawer()
+        // Display the 'Snackbar' component.
+        setErrorSnackbar(true)
 
         // Return early since 'Edited bookmark' local state is empty.
         return
@@ -199,12 +202,20 @@ export default function Main() {
     }
   }
 
-  /** Event handler for closing 'Snackbar' component. */
+  /** Event handler for closing 'Success snackbar' component. */
   function closeSnackbar(event, reason) {
     if (reason === 'clickaway') {
       return
     }
     setOpenSnackbar(false)
+  }
+
+  /** Event handler for closing 'Error snackbar' component. */
+  function closeErrorSnackbar(event, reason) {
+    if (reason === 'clickaway') {
+      return
+    }
+    setErrorSnackbar(false)
   }
 
   return (
@@ -313,7 +324,7 @@ export default function Main() {
         </Grid>
       </main>
 
-      {/* Snackbar notification (Hidden by default) */}
+      {/* Success snackbar notification (Hidden by default) */}
       <Snackbar
         open={openSnackbar}
         autoHideDuration={2000}
@@ -322,6 +333,18 @@ export default function Main() {
       >
         <Alert onClose={closeSnackbar} severity='success'>
           Successfully added new bookmark.
+        </Alert>
+      </Snackbar>
+
+      {/* Error snackbar notification (Hidden by default) */}
+      <Snackbar
+        open={errorSnackbar}
+        autoHideDuration={2000}
+        onClose={closeErrorSnackbar}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <Alert onClose={closeErrorSnackbar} severity='error'>
+          Editing bookmark data failed.
         </Alert>
       </Snackbar>
     </div>
