@@ -91,7 +91,8 @@ export default function Main() {
   const [currentBookmarkLink, setCurrentBookmarkLink] = useState('')
   const [currentBookmarkCategory, setCurrentBookmarkCategory] = useState('')
   const [state, dispatch] = useReducer(bookmarkReducer, dummyData)
-  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [editSuccessSnackbar, setEditSuccessSnackbar] = useState(false)
+  const [successSnackbar, setSuccessSnackbar] = useState(false)
   const [errorSnackbar, setErrorSnackbar] = useState(false)
   const [pathname, setPathname] = useState('personal')
 
@@ -199,6 +200,8 @@ export default function Main() {
       setEditedBookmark({ name: '', link: '' })
       // Close the 'Drawer' component.
       closeRightSideDrawer()
+      // Display the 'Edit success snackbar' component.
+      setEditSuccessSnackbar(true)
     }
   }
 
@@ -207,7 +210,15 @@ export default function Main() {
     if (reason === 'clickaway') {
       return
     }
-    setOpenSnackbar(false)
+    setSuccessSnackbar(false)
+  }
+
+  /** Event handler for closing 'Edit success snackbar' component. */
+  function closeEditSuccessSnackbar(event, reason) {
+    if (reason === 'clickaway') {
+      return
+    }
+    setEditSuccessSnackbar(false)
   }
 
   /** Event handler for closing 'Error snackbar' component. */
@@ -317,7 +328,7 @@ export default function Main() {
               <BookmarkForm
                 bookmarksCollection={state}
                 setBookmarks={dispatch}
-                setOpenSnackbar={setOpenSnackbar}
+                setSuccessSnackbar={setSuccessSnackbar}
               />
             </Grid>
           </Hidden>
@@ -326,8 +337,8 @@ export default function Main() {
 
       {/* Success snackbar notification (Hidden by default) */}
       <Snackbar
-        open={openSnackbar}
-        autoHideDuration={2000}
+        open={successSnackbar}
+        autoHideDuration={3000}
         onClose={closeSnackbar}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
@@ -336,10 +347,22 @@ export default function Main() {
         </Alert>
       </Snackbar>
 
+      {/* Edit success snackbar notification (Hidden by default) */}
+      <Snackbar
+        open={editSuccessSnackbar}
+        autoHideDuration={3000}
+        onClose={closeEditSuccessSnackbar}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <Alert onClose={closeEditSuccessSnackbar} severity='success'>
+          Successfully edited bookmark data.
+        </Alert>
+      </Snackbar>
+
       {/* Error snackbar notification (Hidden by default) */}
       <Snackbar
         open={errorSnackbar}
-        autoHideDuration={2000}
+        autoHideDuration={3000}
         onClose={closeErrorSnackbar}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >

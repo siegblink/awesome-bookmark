@@ -70,7 +70,7 @@ export default function BookmarkForm(props) {
     setLink('')
     setCategory('')
 
-    props.setOpenSnackbar(true)
+    props.setSuccessSnackbar(true)
   }
 
   function clearBookmark(event) {
