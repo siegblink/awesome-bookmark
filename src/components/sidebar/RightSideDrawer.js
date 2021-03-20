@@ -95,7 +95,7 @@ export default function RightSideDrawer(props) {
               variant='outlined'
               size='large'
               type='button'
-              onClick={() => {}}
+              onClick={closeDrawer}
             >
               Cancel
             </Button>
