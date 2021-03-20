@@ -326,6 +326,7 @@ export default function Main() {
           <Hidden mdDown>
             <Grid item xs={12} lg={6}>
               <BookmarkForm
+                defaultCategory={pathname}
                 bookmarksCollection={state}
                 setBookmarks={dispatch}
                 setSuccessSnackbar={setSuccessSnackbar}
