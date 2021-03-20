@@ -38,7 +38,7 @@ export default function BookmarkForm(props) {
   const [name, setName] = useState('')
   const [link, setLink] = useState('')
   const [category, setCategory] = useState('')
-  const { setBookmarks } = props
+  const { defaultCategory, setBookmarks } = props
 
   function changeName(event) {
     setName(event.target.value)
@@ -82,33 +82,39 @@ export default function BookmarkForm(props) {
 
   return (
     <Paper className={classes.paper}>
+      {/* Header */}
       <Typography variant='h5'>Add new bookmark</Typography>
+
+      {/* Sub-header */}
       <Typography color='textSecondary'>
         Enter the bookmark name, url, and category.
       </Typography>
+
+      {/* Form component */}
       <div className={classes.textFieldGroup}>
+        {/* Bookmark link text field */}
         <FormControl fullWidth variant='filled' className={classes.margin}>
           <InputLabel htmlFor='bookmark-name'>Name</InputLabel>
-          <FilledInput
-            id='bookmark-name'
-            value={name}
-            onChange={changeName}
-          />
+          <FilledInput id='bookmark-name' value={name} onChange={changeName} />
         </FormControl>
+
+        {/* Bookmark link text field */}
         <FormControl fullWidth variant='filled' className={classes.margin}>
           <InputLabel htmlFor='bookmark-link'>Link</InputLabel>
-          <FilledInput
-            id='bookmark-link'
-            value={link}
-            onChange={changeLink}
-          />
+          <FilledInput id='bookmark-link' value={link} onChange={changeLink} />
         </FormControl>
+
+        {/* Category selector */}
         <CustomSelect
+          defaultCategory={defaultCategory}
           category={category}
           setCategory={changeCategory}
         />
       </div>
+
+      {/* Button group */}
       <div className={classes.buttonGroup}>
+        {/* Clear button */}
         <Button
           color='primary'
           className={classes.cancelButton}
@@ -116,6 +122,8 @@ export default function BookmarkForm(props) {
         >
           Clear
         </Button>
+
+        {/* Add bookmark button */}
         <Button variant='contained' color='primary' onClick={submitBookmark}>
           Add bookmark
         </Button>
