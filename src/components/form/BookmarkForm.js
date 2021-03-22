@@ -48,7 +48,7 @@ export default function BookmarkForm(props) {
     setLink(event.target.value)
   }
 
-  function changeCategory(event) {
+  function updateCategory(event) {
     setCategory(event.target.value)
   }
 
@@ -108,7 +108,8 @@ export default function BookmarkForm(props) {
         <CustomSelect
           defaultCategory={defaultCategory}
           category={category}
-          setCategory={changeCategory}
+          setCategory={setCategory}
+          updateCategory={updateCategory}
         />
       </div>
 
