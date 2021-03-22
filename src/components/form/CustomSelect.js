@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import FormControl from '@material-ui/core/FormControl'
@@ -26,13 +26,20 @@ const tabNames = [
 
 export default function CustomSelect(props) {
   const classes = useStyles()
+  const { category, defaultCategory, name, disabled } = props
+  const { setCategory, updateCategory } = props
   const [open, setOpen] = useState(false)
 
-  // Declare variable for 'First letter'.
-  const firstLetter = `${props.defaultCategory.slice(0, 1).toUpperCase()}`
+  useEffect(() => {
+    // Declare variable for 'First letter'.
+    const firstLetter = `${defaultCategory.slice(0, 1).toUpperCase()}`
 
-  // Declare variable for 'Default category'.
-  const defaultCategory = `${firstLetter}${props.defaultCategory.slice(1)}`
+    // Declare variable for 'Default category'.
+    const parsedCategory = `${firstLetter}${defaultCategory.slice(1)}`
+
+    // Set the default category value.
+    setCategory(parsedCategory)
+  }, [defaultCategory, setCategory])
 
   const handleClose = () => {
     setOpen(false)
@@ -51,13 +58,13 @@ export default function CustomSelect(props) {
       <Select
         id='bookmark-category'
         labelId='bookmark-category'
-        name={props.name}
+        name={name}
         open={open}
-        value={props?.category || defaultCategory}
-        onChange={props.setCategory}
+        value={category}
+        onChange={updateCategory}
         onClose={handleClose}
         onOpen={handleOpen}
-        disabled={props.disabled}
+        disabled={disabled}
       >
         {tabNames.map((tabName) => {
           return (
