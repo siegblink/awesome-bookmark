@@ -30,22 +30,34 @@ export default function CustomSelect(props) {
   const { setCategory, updateCategory } = props
   const [open, setOpen] = useState(false)
 
+  // Declare 'side effect' to automatically set a default value for 'Bookmark category'.
   useEffect(() => {
-    // Declare variable for 'First letter'.
-    const firstLetter = `${defaultCategory.slice(0, 1).toUpperCase()}`
+    // When the 'defaultCategory' prop is 'specified' or 'defined', then execute the 'side effect'.
+    if (Boolean(defaultCategory)) {
+      // Declare variable for 'First letter'.
+      const firstLetter = `${defaultCategory?.slice(0, 1).toUpperCase()}`
 
-    // Declare variable for 'Default category'.
-    const parsedCategory = `${firstLetter}${defaultCategory.slice(1)}`
+      // Declare variable for 'Default category'.
+      const parsedCategory = `${firstLetter}${defaultCategory?.slice(1)}`
 
-    // Set the default category value.
-    setCategory(parsedCategory)
+      // Set the default category value.
+      setCategory(parsedCategory)
+    }
   }, [defaultCategory, setCategory])
 
-  const handleClose = () => {
+  /**
+   * Close the 'Select' dropdown.
+   * @returns void
+   */
+  function closeSelect() {
     setOpen(false)
   }
 
-  const handleOpen = () => {
+  /**
+   * Open the 'Select' dropdown.
+   * @returns void
+   */
+  function openSelect() {
     setOpen(true)
   }
 
@@ -62,8 +74,8 @@ export default function CustomSelect(props) {
         open={open}
         value={category}
         onChange={updateCategory}
-        onClose={handleClose}
-        onOpen={handleOpen}
+        onClose={closeSelect}
+        onOpen={openSelect}
         disabled={disabled}
       >
         {tabNames.map((tabName) => {
