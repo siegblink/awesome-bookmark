@@ -103,26 +103,34 @@ export default function Main() {
   }, [])
 
   /**
-   * Event handler for setting the 'pathname' local state.
+   * Set the 'pathname' local state.
    * @param {string} pathname - The 'pathname' based on the window 'location' object.
+   * @returns void
    */
   function updatePathname(pathname) {
     setPathname(pathname)
   }
 
-  /** Event handler for opening the 'Drawer' (Left sidebar) component. */
+  /**
+   * Event handler for opening the 'Drawer' (Left sidebar) component.
+   * @returns void
+   */
   function openDrawer() {
     setOpen(true)
   }
 
-  /** Event handler for closing the 'Drawer' (Left sidebar) component. */
+  /**
+   * Event handler for closing the 'Drawer' (Left sidebar) component.
+   * @returns void
+   */
   function closeDrawer() {
     setOpen(false)
   }
 
   /**
-   * Event handler for opening the 'Right-side drawer' component.
+   * Set 'Current bookmark name', 'Current bookmark link', and 'Current bookmark category' local state.
    * @param {object} bookmark - The existing bookmark data.
+   * @returns void
    */
   function openRightSideDrawer({ name, link, category }) {
     setCurrentBookmarkName(name)
@@ -131,14 +139,18 @@ export default function Main() {
     setOpenEditDrawer(true)
   }
 
-  /** Event handler for closing the 'Right-side drawer' component. */
+  /**
+   * Unset the 'Open edit drawer' local state.
+   * @returns void
+   */
   function closeRightSideDrawer() {
     setOpenEditDrawer(false)
   }
 
   /**
-   * Event handler for saving an edited bookmark.
+   * Set the 'Edit bookmark' local state.
    * @param {object} event - The event object provided by the browser API.
+   * @returns void
    */
   function saveEditedBookmark(event) {
     const { name, value } = event.target
@@ -151,8 +163,9 @@ export default function Main() {
   }
 
   /**
-   * Event handler for submitting bookmark data.
+   * Submit the 'edited' bookmark data.
    * @param {object} previousBookmarkData - The previous bookmark data.
+   * @returns void
    */
   function submitEditedBookmark(previousBookmarkData) {
     return (event) => {
@@ -205,7 +218,12 @@ export default function Main() {
     }
   }
 
-  /** Event handler for closing 'Success snackbar' component. */
+  /**
+   * Set the 'Success snackbar' local state.
+   * @params {object} event - The event object provided by the browser API.
+   * @params {string} reason - The reason for the 'Click away' event.
+   * @returns void
+   */
   function closeSnackbar(event, reason) {
     if (reason === 'clickaway') {
       return
@@ -213,7 +231,12 @@ export default function Main() {
     setSuccessSnackbar(false)
   }
 
-  /** Event handler for closing 'Edit success snackbar' component. */
+  /**
+   * Set the 'Edit success snackbar' local state.
+   * @params {object} event - The event object provided by the browser API.
+   * @params {string} reason - The reason for the 'Click away' event.
+   * @returns void
+   */
   function closeEditSuccessSnackbar(event, reason) {
     if (reason === 'clickaway') {
       return
@@ -221,7 +244,12 @@ export default function Main() {
     setEditSuccessSnackbar(false)
   }
 
-  /** Event handler for closing 'Error snackbar' component. */
+  /**
+   * Set the 'Error snackbar' local state.
+   * @params {object} event - The event object provided by the browser API.
+   * @params {string} reason - The reason for the 'Click away' event.
+   * @returns void
+   */
   function closeErrorSnackbar(event, reason) {
     if (reason === 'clickaway') {
       return
