@@ -40,18 +40,38 @@ export default function BookmarkForm(props) {
   const [category, setCategory] = useState('')
   const { defaultCategory, setBookmarks } = props
 
+  /**
+   * Set the 'name' local state.
+   * @params {object} event - The event object provided by the browser API.
+   * @returns void
+   */
   function changeName(event) {
     setName(event.target.value)
   }
 
+  /**
+   * Set the 'link' local state.
+   * @params {object} event - The event object provided by the browser API.
+   * @returns void
+   */
   function changeLink(event) {
     setLink(event.target.value)
   }
 
+  /**
+   * Set the 'category' local state.
+   * @params {object} event - The event object provided by the browser API.
+   * @returns void
+   */
   function updateCategory(event) {
     setCategory(event.target.value)
   }
 
+  /**
+   * Submit the bookmark data.
+   * @params {object} event - The event object provided by the browser API.
+   * @returns void
+   */
   function submitBookmark(event) {
     event.preventDefault()
     if (!name && !link && !category) {
@@ -73,6 +93,11 @@ export default function BookmarkForm(props) {
     props.setSuccessSnackbar(true)
   }
 
+  /**
+   * Unset the 'name', 'link', and 'category' local state.
+   * @params {object} event - The event object provided by the browser API.
+   * @returns void
+   */
   function clearBookmark(event) {
     event.preventDefault()
     setName('')
