@@ -44,6 +44,51 @@ export default function bookmarkReducer(state, action) {
     case 'DELETE_BOOKMARK':
       return state.filter((bookmark) => bookmark.name !== action.payload.name)
 
+    case 'OPEN_DRAWER': {
+      const updatedFlags = { ...state.flags, openDrawer: true }
+      return { ...state, ...updatedFlags }
+    }
+    case 'CLOSE_DRAWER': {
+      const updatedFlags = { ...state.flags, openDrawer: false }
+      return { ...state, flags: updatedFlags }
+    }
+
+    case 'OPEN_EDIT_DRAWER': {
+      const updatedFlags = { ...state.flags, openEditDrawer: true }
+      return { ...state, flags: updatedFlags }
+    }
+    case 'CLOSE_EDIT_DRAWER': {
+      const updatedFlags = { ...state.flags, openEditDrawer: false }
+      return { ...state, flags: updatedFlags }
+    }
+
+    case 'OPEN_EDIT_SUCCESS_SNACKBAR': {
+      const updatedFlags = { ...state.flags, editSuccessSnackbar: true }
+      return { ...state, flags: updatedFlags }
+    }
+    case 'CLOSE_EDIT_SUCCESS_SNACKBAR': {
+      const updatedFlags = { ...state.flags, editSuccessSnackbar: false }
+      return { ...state, flags: updatedFlags }
+    }
+
+    case 'OPEN_SUCCESS_SNACKBAR': {
+      const updatedFlags = { ...state.flags, successSnackbar: true }
+      return { ...state, flags: updatedFlags }
+    }
+    case 'CLOSE_SUCCESS_SNACKBAR': {
+      const updatedFlags = { ...state.flags, successSnackbar: false }
+      return { ...state, flags: updatedFlags }
+    }
+
+    case 'OPEN_ERROR_SNACKBAR': {
+      const updatedFlags = { ...state.flags, errorSnackbar: true }
+      return { ...state, flags: updatedFlags }
+    }
+    case 'CLOSE_ERROR_SNACKBAR': {
+      const updatedFlags = { ...state.flags, errorSnackbar: false }
+      return { ...state, flags: updatedFlags }
+    }
+
     default:
       throw new Error('Invalid action')
   }
