@@ -1,4 +1,12 @@
-const dummyData = {
+const initialFlagState = {
+  openDrawer: false,
+  openEditDrawer: false,
+  editSuccessSnackbar: false,
+  successSnackbar: false,
+  errorSnackbar: false,
+}
+
+export const initialData = {
   personal: [
     {
       name: 'github-octodex',
@@ -20,7 +28,7 @@ const dummyData = {
   important: [],
   libraries: [],
   tools: [],
-  others: []
+  others: [],
+  // Flags data
+  flags: initialFlagState,
 }
-
-export default dummyData
