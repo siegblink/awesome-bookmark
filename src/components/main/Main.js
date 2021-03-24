@@ -17,7 +17,7 @@ import SearchButton from '../header/SearchButton'
 import BookmarkForm from '../form/BookmarkForm'
 import Alert from '../form/Alert'
 import BookmarkList from '../bookmarks/BookmarkList'
-import dummyData from '../../db'
+import { initialData } from '../../db'
 import { BookmarkProvider } from '../../context'
 import { bookmarkReducer } from '../../reducers'
 
@@ -83,6 +83,9 @@ export default function Main() {
   // Declare variable to check if the viewport is from a 'laptop' screen.
   // const isLapTopView = useMediaQuery('(max-width:1440px)')
 
+  // Declare local state using 'useReducer' hook.
+  const [state, dispatch] = useReducer(bookmarkReducer, initialData)
+
   // Declare local state.
   const [open, setOpen] = useState(false)
   const [openEditDrawer, setOpenEditDrawer] = useState(false)
@@ -90,7 +93,6 @@ export default function Main() {
   const [currentBookmarkName, setCurrentBookmarkName] = useState('')
   const [currentBookmarkLink, setCurrentBookmarkLink] = useState('')
   const [currentBookmarkCategory, setCurrentBookmarkCategory] = useState('')
-  const [state, dispatch] = useReducer(bookmarkReducer, dummyData)
   const [editSuccessSnackbar, setEditSuccessSnackbar] = useState(false)
   const [successSnackbar, setSuccessSnackbar] = useState(false)
   const [errorSnackbar, setErrorSnackbar] = useState(false)
@@ -98,7 +100,7 @@ export default function Main() {
 
   /** Declare side effect that sets the 'Current bookmark category' state. */
   useEffect(function () {
-    const firstBookmarkEntry = dummyData['personal']
+    const firstBookmarkEntry = initialData['personal']
     setCurrentBookmarkCategory(firstBookmarkEntry.category)
   }, [])
 
