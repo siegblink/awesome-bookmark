@@ -88,7 +88,7 @@ const useStyles = makeStyles(function (theme) {
 })
 
 export default function Header(props) {
-  const { open, pathname, openDrawer } = props
+  const { open, pathname, displayDrawer } = props
   const classes = useStyles()
 
   // Get the 'Theme' data from 'useTheme'.
@@ -109,7 +109,7 @@ export default function Header(props) {
           aria-label='open drawer'
           color='inherit'
           edge='start'
-          onClick={openDrawer}
+          onClick={displayDrawer}
           className={clsx(
             classes.menuButton,
             open && !isExtraSmall && classes.hide
