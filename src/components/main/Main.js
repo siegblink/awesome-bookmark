@@ -86,16 +86,15 @@ export default function Main() {
   // Declare local state using 'useReducer' hook.
   const [state, dispatch] = useReducer(bookmarkReducer, initialData)
 
+  // Destructure the data from 'state - flags'.
+  const { openDrawer, openEditDrawer, editSuccessSnackbar } = state.flags
+  const { successSnackbar, errorSnackbar } = state.flags
+
   // Declare local state.
-  const [open, setOpen] = useState(false)
-  const [openEditDrawer, setOpenEditDrawer] = useState(false)
   const [editedBookmark, setEditedBookmark] = useState(initialBookmarkData)
   const [currentBookmarkName, setCurrentBookmarkName] = useState('')
   const [currentBookmarkLink, setCurrentBookmarkLink] = useState('')
   const [currentBookmarkCategory, setCurrentBookmarkCategory] = useState('')
-  const [editSuccessSnackbar, setEditSuccessSnackbar] = useState(false)
-  const [successSnackbar, setSuccessSnackbar] = useState(false)
-  const [errorSnackbar, setErrorSnackbar] = useState(false)
   const [pathname, setPathname] = useState('personal')
 
   /** Declare side effect that sets the 'Current bookmark category' state. */
@@ -117,8 +116,8 @@ export default function Main() {
    * Event handler for opening the 'Drawer' (Left sidebar) component.
    * @returns void
    */
-  function openDrawer() {
-    setOpen(true)
+  function displayDrawer() {
+    dispatch({ type: 'OPEN_DRAWER' })
   }
 
   /**
@@ -126,7 +125,7 @@ export default function Main() {
    * @returns void
    */
   function closeDrawer() {
-    setOpen(false)
+    dispatch({ type: 'CLOSE_DRAWER' })
   }
 
   /**
@@ -138,7 +137,7 @@ export default function Main() {
     setCurrentBookmarkName(name)
     setCurrentBookmarkLink(link)
     setCurrentBookmarkCategory(category)
-    setOpenEditDrawer(true)
+    dispatch({ type: 'OPEN_EDIT_DRAWER' })
   }
 
   /**
@@ -146,7 +145,7 @@ export default function Main() {
    * @returns void
    */
   function closeRightSideDrawer() {
-    setOpenEditDrawer(false)
+    dispatch({ type: 'CLOSE_EDIT_DRAWER' })
   }
 
   /**
@@ -186,7 +185,7 @@ export default function Main() {
         // Close the 'Drawer' component.
         closeRightSideDrawer()
         // Display the 'Snackbar' component.
-        setErrorSnackbar(true)
+        dispatch({ type: 'OPEN_ERROR_SNACKBAR' })
 
         // Return early since 'Edited bookmark' local state is empty.
         return
@@ -216,7 +215,7 @@ export default function Main() {
       // Close the 'Drawer' component.
       closeRightSideDrawer()
       // Display the 'Edit success snackbar' component.
-      setEditSuccessSnackbar(true)
+      dispatch({ type: 'OPEN_EDIT_SUCCESS_SNACKBAR' })
     }
   }
 
@@ -230,7 +229,7 @@ export default function Main() {
     if (reason === 'clickaway') {
       return
     }
-    setSuccessSnackbar(false)
+    dispatch({ type: 'CLOSE_SUCCESS_SNACKBAR' })
   }
 
   /**
@@ -243,7 +242,7 @@ export default function Main() {
     if (reason === 'clickaway') {
       return
     }
-    setEditSuccessSnackbar(false)
+    dispatch({ type: 'CLOSE_EDIT_SUCCESS_SNACKBAR' })
   }
 
   /**
@@ -256,7 +255,7 @@ export default function Main() {
     if (reason === 'clickaway') {
       return
     }
-    setErrorSnackbar(false)
+    dispatch({ type: 'CLOSE_ERROR_SNACKBAR' })
   }
 
   return (
@@ -265,7 +264,7 @@ export default function Main() {
       <CssBaseline />
 
       {/* Header */}
-      <Header pathname={pathname} openDrawer={openDrawer}>
+      <Header pathname={pathname} displayDrawer={displayDrawer}>
         <Hidden mdUp>
           <SearchButton />
         </Hidden>
@@ -282,8 +281,8 @@ export default function Main() {
       ) : null}
 
       {/* Left side 'Drawer' (Hidden by default) */}
-      <LeftSideDrawer open={open} closeDrawer={closeDrawer}>
-        <SidebarList isSidebarOpen={open} />
+      <LeftSideDrawer open={openDrawer} closeDrawer={closeDrawer}>
+        <SidebarList isSidebarOpen={openDrawer} />
       </LeftSideDrawer>
 
       {/* Right side 'Drawer' (Hidden by default) */}
@@ -327,7 +326,7 @@ export default function Main() {
           >
             <BookmarkProvider
               value={{
-                isSidebarOpen: open,
+                isSidebarOpen: openDrawer,
                 bookmarks: state,
                 dispatch: dispatch,
                 openRightSideDrawer: openRightSideDrawer,
@@ -359,7 +358,9 @@ export default function Main() {
                 defaultCategory={pathname}
                 bookmarksCollection={state}
                 setBookmarks={dispatch}
-                setSuccessSnackbar={setSuccessSnackbar}
+                setSuccessSnackbar={() => {
+                  dispatch({ type: 'OPEN_SUCCESS_SNACKBAR' })
+                }}
               />
             </Grid>
           </Hidden>
