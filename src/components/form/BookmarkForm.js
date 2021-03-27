@@ -90,7 +90,7 @@ export default function BookmarkForm(props) {
     setLink('')
     setCategory('')
 
-    props.setSuccessSnackbar(true)
+    props.setSuccessSnackbar()
   }
 
   /**
