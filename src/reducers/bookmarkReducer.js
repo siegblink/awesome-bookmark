@@ -46,7 +46,7 @@ export default function bookmarkReducer(state, action) {
 
     case 'OPEN_DRAWER': {
       const updatedFlags = { ...state.flags, openDrawer: true }
-      return { ...state, ...updatedFlags }
+      return { ...state, flags: updatedFlags }
     }
     case 'CLOSE_DRAWER': {
       const updatedFlags = { ...state.flags, openDrawer: false }
