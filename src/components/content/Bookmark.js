@@ -52,7 +52,7 @@ const useStyles = makeStyles(() => {
 })
 
 export default function Bookmark(props) {
-  const { bookmark, openEditDrawer, dispatch } = props
+  const { bookmark, bookmarkGroup, openEditDrawer, dispatch } = props
   const classes = useStyles()
 
   // Get the 'Bookmark' context data.
@@ -67,6 +67,25 @@ export default function Bookmark(props) {
 
   // Declare variable to check if the viewport is from a 'laptop' screen.
   // const isLapTopView = useMediaQuery('(max-width:1440px)')
+
+  /**
+   * Remove bookmark data.
+   * @params {object} bookmark - The bookmark data.
+   * @params {function} callback - The function that will be executed after removing the bookmark data.
+   * @returns void
+   */
+  function removeBookmark(bookmark, callback) {
+    return () => {
+      // Execute a 'Delete bookmark' action.
+      dispatch({
+        type: 'DELETE_BOOKMARK',
+        payload: { name: bookmark.name, group: bookmarkGroup },
+      })
+
+      // Execute the callback.
+      callback()
+    }
+  }
 
   return (
     <Card
@@ -103,7 +122,7 @@ export default function Bookmark(props) {
           <MoreOptionsButton
             openEditDrawer={openEditDrawer}
             bookmarkData={bookmark}
-            dispatch={dispatch}
+            removeBookmark={removeBookmark}
           />
         </CardActions>
       </div>

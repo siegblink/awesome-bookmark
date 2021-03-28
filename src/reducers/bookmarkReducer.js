@@ -41,8 +41,11 @@ export default function bookmarkReducer(state, action) {
       return { ...state, [oldData.category.toLowerCase()]: updatedBookmarkData }
     }
 
-    case 'DELETE_BOOKMARK':
-      return state.filter((bookmark) => bookmark.name !== action.payload.name)
+    case 'DELETE_BOOKMARK': {
+      return state[action.payload.group].filter((bookmark) => {
+        return bookmark.name !== action.payload.name
+      })
+    }
 
     case 'OPEN_DRAWER': {
       const updatedFlags = { ...state.flags, openDrawer: true }
