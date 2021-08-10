@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { makeStyles, alpha, useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import AppBar from '@material-ui/core/AppBar'
-import ToolBar from '@material-ui/core/ToolBar'
+import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Typography from '@material-ui/core/Typography'
@@ -104,7 +104,7 @@ export default function Header(props) {
         [classes.appBarShift]: open && !isExtraSmall,
       })}
     >
-      <ToolBar>
+      <Toolbar>
         <IconButton
           aria-label='open drawer'
           color='inherit'
@@ -128,7 +128,7 @@ export default function Header(props) {
         </Typography>
         <SearchInputField />
         {props.children}
-      </ToolBar>
+      </Toolbar>
     </AppBar>
   )
 }
