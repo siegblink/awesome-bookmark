@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { makeStyles, fade, useTheme } from '@material-ui/core/styles'
+import { makeStyles, alpha, useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import AppBar from '@material-ui/core/AppBar'
 import ToolBar from '@material-ui/core/ToolBar'
@@ -41,14 +41,14 @@ const useStyles = makeStyles(function (theme) {
       alignItems: 'center',
     },
     currentBookmark: {
-      color: fade(theme.palette.common.white, 0.55),
+      color: alpha(theme.palette.common.white, 0.55),
     },
     searchBar: {
       position: 'relative',
       borderRadius: theme.shape.borderRadius,
-      backgroundColor: fade(theme.palette.common.white, 0.15),
+      backgroundColor: alpha(theme.palette.common.white, 0.15),
       '&:hover': {
-        backgroundColor: fade(theme.palette.common.white, 0.25),
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
       },
       marginLeft: 0,
       [theme.breakpoints.up('sm')]: {
