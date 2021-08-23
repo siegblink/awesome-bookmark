@@ -42,9 +42,20 @@ export default function bookmarkReducer(state, action) {
     }
 
     case 'DELETE_BOOKMARK': {
-      return state[action.payload.group].filter((bookmark) => {
-        return bookmark.name !== action.payload.name
+      // Get the specific bookmark entry data.
+      const capturedState =
+        state[action.payload.bookmark.category.toLowerCase()]
+
+      // Execute the delete operation.
+      const updatedBookmark = capturedState.filter((bookmark) => {
+        return bookmark.name !== action.payload.bookmark.name
       })
+
+      // Return the updated state.
+      return {
+        ...state,
+        [action.payload.bookmark.category.toLowerCase()]: updatedBookmark,
+      }
     }
 
     case 'OPEN_DRAWER': {

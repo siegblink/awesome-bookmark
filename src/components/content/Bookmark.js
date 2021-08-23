@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => {
   return {
     root: {
       maxWidth: 647.5,
-      minWidth: 275,
+      minWidth: 605,
       marginBottom: 24,
       display: 'flex',
     },
@@ -52,7 +52,7 @@ const useStyles = makeStyles(() => {
 })
 
 export default function Bookmark(props) {
-  const { bookmark, bookmarkGroup, openEditDrawer, dispatch } = props
+  const { bookmark, openEditDrawer, dispatch } = props
   const classes = useStyles()
 
   // Get the 'Bookmark' context data.
@@ -79,7 +79,7 @@ export default function Bookmark(props) {
       // Execute a 'Delete bookmark' action.
       dispatch({
         type: 'DELETE_BOOKMARK',
-        payload: { name: bookmark.name, group: bookmarkGroup },
+        payload: { bookmark }, // Bookmark data is composed of { name, link, category }.
       })
 
       // Execute the callback.
