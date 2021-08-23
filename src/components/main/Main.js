@@ -177,7 +177,7 @@ export default function Main() {
       const { name, link } = previousBookmarkData
 
       // Check if the 'Edited bookmark' local state is not empty.
-      if (!editedBookmark.name || !editedBookmark.link) {
+      if (!editedBookmark.name && !editedBookmark.link) {
         console.error('You passed an empty or blank data.')
 
         // Reset the values of 'Edited bookmark' local state.
@@ -212,8 +212,10 @@ export default function Main() {
 
       // Reset the values of 'Edited bookmark' local state.
       setEditedBookmark({ name: '', link: '' })
+
       // Close the 'Drawer' component.
       closeRightSideDrawer()
+
       // Display the 'Edit success snackbar' component.
       dispatch({ type: 'OPEN_EDIT_SUCCESS_SNACKBAR' })
     }
