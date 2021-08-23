@@ -24,7 +24,6 @@ export default function BookmarkList(props) {
         <Bookmark
           key={index}
           bookmark={bookmark}
-          bookmarkGroup={bookmarkGroup}
           openEditDrawer={openRightSideDrawer}
           dispatch={dispatch}
         />
