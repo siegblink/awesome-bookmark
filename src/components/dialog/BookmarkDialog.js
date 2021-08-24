@@ -58,12 +58,18 @@ export default function BookmarkDialog(props) {
       onClose={props.closeDialog}
       aria-labelledby='add-bookmark-form'
     >
+      {/* Dialog title */}
       <DialogTitle id='add-bookmark-form'>Add new bookmark</DialogTitle>
+
+      {/* Dialog content */}
       <DialogContent dividers className={classes.dialogContent}>
         <DialogContentText className={classes.dialogContentText}>
           Enter the bookmark name, url, and category.
         </DialogContentText>
-        <form className={classes.form}>
+
+        {/* Add bookmark form */}
+        <form>
+          {/* Bookmark name text field */}
           <TextField
             fullWidth
             id='bookmarkName'
@@ -74,6 +80,8 @@ export default function BookmarkDialog(props) {
             onChange={changeBookmarkName}
             className={classes.bookmarkName}
           />
+
+          {/* Bookmark link text field */}
           <TextField
             fullWidth
             id='bookmarkUrl'
@@ -84,9 +92,17 @@ export default function BookmarkDialog(props) {
             onChange={changeLink}
             className={classes.bookmarkUrl}
           />
-          <CustomSelect marginTop category={category} setCategory={changeCategory} />
+
+          {/* Bookmark category select (dropdown) */}
+          <CustomSelect
+            marginTop
+            category={category}
+            setCategory={changeCategory}
+          />
         </form>
       </DialogContent>
+
+      {/* Dialog actions */}
       <DialogActions className={classes.dialogActions}>
         <Button
           onClick={props.closeDialog}
