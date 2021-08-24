@@ -88,7 +88,7 @@ export default function Main() {
 
   // Destructure the data from 'state - flags'.
   const { openDrawer, openEditDrawer, editSuccessSnackbar } = state.flags
-  const { successSnackbar, errorSnackbar } = state.flags
+  const { successSnackbar, errorSnackbar, deleteBookmarkSnackbar } = state.flags
 
   // Declare local state.
   const [editedBookmark, setEditedBookmark] = useState(initialBookmarkData)
@@ -260,6 +260,19 @@ export default function Main() {
     dispatch({ type: 'CLOSE_ERROR_SNACKBAR' })
   }
 
+  /**
+   * Set the 'Delete bookmark snackbar' local state.
+   * @params {object} event - The event object provided by the browser API.
+   * @params {string} reason - The reason for the 'Click away' event.
+   * @returns void
+   */
+  function closeDeleteBookmarkSnackbar(event, reason) {
+    if (reason === 'clickaway') {
+      return
+    }
+    dispatch({ type: 'CLOSE_DELETE_BOOKMARK_SNACKBAR' })
+  }
+
   return (
     <div className={classes.root}>
       {/* CSS reset component */}
@@ -402,6 +415,18 @@ export default function Main() {
       >
         <Alert onClose={closeErrorSnackbar} severity='error'>
           Editing bookmark data failed.
+        </Alert>
+      </Snackbar>
+
+      {/* Delete bookmark snackbar notification (Hidden by default) */}
+      <Snackbar
+        open={deleteBookmarkSnackbar}
+        autoHideDuration={3000}
+        onClose={closeDeleteBookmarkSnackbar}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <Alert onClose={closeDeleteBookmarkSnackbar} severity='error'>
+          Bookmark deleted.
         </Alert>
       </Snackbar>
     </div>

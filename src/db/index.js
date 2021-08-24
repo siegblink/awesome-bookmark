@@ -4,6 +4,7 @@ const initialFlagState = {
   editSuccessSnackbar: false,
   successSnackbar: false,
   errorSnackbar: false,
+  deleteBookmarkSnackbar: false,
 }
 
 export const initialData = {
