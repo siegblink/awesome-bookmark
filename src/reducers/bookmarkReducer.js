@@ -107,6 +107,15 @@ export default function bookmarkReducer(state, action) {
       return { ...state, flags: updatedFlags }
     }
 
+    case 'OPEN_DELETE_BOOKMARK_SNACKBAR': {
+      const updatedFlags = { ...state.flags, deleteBookmarkSnackbar: true }
+      return { ...state, flags: updatedFlags }
+    }
+    case 'CLOSE_DELETE_BOOKMARK_SNACKBAR': {
+      const updatedFlags = { ...state.flags, deleteBookmarkSnackbar: false }
+      return { ...state, flags: updatedFlags }
+    }
+
     default:
       throw new Error('Invalid action')
   }
