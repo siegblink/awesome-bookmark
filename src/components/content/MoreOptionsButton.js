@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import Tooltip from '@material-ui/core/Tooltip'
+import DeleteBookmarkDialog from '../dialog/DeleteBookmarkDialog'
+import { BookmarkContext } from '../../context/'
 
 const ITEM_HEIGHT = 48
 
 export default function MoreOptionsButton(props) {
+  const bookmarkContext = useContext(BookmarkContext)
   const [anchorEl, setAnchorEl] = useState(null)
+  const [openDialog, setOpenDialog] = useState(false)
   const { bookmarkData, openEditDrawer, removeBookmark } = props
   const open = Boolean(anchorEl)
 
@@ -23,6 +27,19 @@ export default function MoreOptionsButton(props) {
   function handleOpenEditDrawer() {
     openEditDrawer(bookmarkData)
     setAnchorEl(null)
+  }
+
+  function confirmDeleteBookmark() {
+    setOpenDialog(true)
+    setAnchorEl(null)
+  }
+
+  function closeDialog() {
+    setOpenDialog(false)
+  }
+
+  function displayDeleteBookmarkSnackbar() {
+    bookmarkContext.dispatch({ type: 'OPEN_DELETE_BOOKMARK_SNACKBAR' })
   }
 
   return (
@@ -50,10 +67,18 @@ export default function MoreOptionsButton(props) {
         keepMounted
       >
         <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
-        <MenuItem onClick={removeBookmark(bookmarkData, handleClose)}>
-          Delete
-        </MenuItem>
+        <MenuItem onClick={confirmDeleteBookmark}>Delete</MenuItem>
       </Menu>
+
+      {/* Delete bookmark dialog */}
+      <DeleteBookmarkDialog
+        isDialogOpen={openDialog}
+        closeDialog={closeDialog}
+        deleteBookmark={removeBookmark(
+          bookmarkData,
+          displayDeleteBookmarkSnackbar
+        )}
+      />
     </div>
   )
 }
